@@ -1,31 +1,40 @@
 ﻿using Cobble.ViewModels;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Cobble
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
+
         public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
             DataContext = mainWindowViewModel;
+
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.ChangedButton != MouseButton.Left) return;
+            if (e.ClickCount == 2)
+            {
+                WindowState = WindowState == WindowState.Maximized
+                        ? WindowState.Normal
+                        : WindowState.Maximized;
+                Maximize.Content = WindowState == WindowState.Maximized
+                            ? "⧉"
+                            : "☐";
+                return;
+            }
+            if (WindowState == WindowState.Maximized) return;
+            e.Handled = true;
+            DragMove();       
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
@@ -45,7 +54,28 @@ namespace Cobble
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            ShowInTaskbar = false;
+            Hide();
+        }
+
+        private void TaskbarIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ShowInTaskbar = true;
+            Show();
+            Activate();
+        }
+
+        private void Show_Click(object sender, RoutedEventArgs e)
+        {
+            ShowInTaskbar = true;
+            Show();
+            Activate();
+        }
+
+        private void CloseItem_Click(object sender, RoutedEventArgs e)
+        {
             Environment.Exit(0);
         }
+
     }
 }

@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:Cobble"
         xmlns:vm="clr-namespace:Cobble.ViewModels"
         xmlns:views="clr-namespace:Cobble.Views"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="MainWindow"
+        Icon="pack://application:,,,/Assets/CobbleIcon.ico"
         Height="600"
         Width="1200"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
@@ -28,18 +31,22 @@
         <DataTemplate DataType="{x:Type vm:TimetablePageViewModel}">
             <views:TimetablePage></views:TimetablePage>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MemoPageViewModel}">
+            <views:MemoPage></views:MemoPage>
+        </DataTemplate>
     </Window.Resources>
-    
-    
-    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Background="{Binding ThemeViewModel.BaseColor}">
+
+
+
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Background="{Binding ThemeViewModel.BaseBrush}">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="12*"></RowDefinition>
             </Grid.RowDefinitions>
-            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Content="{Binding NavigationService.CurrentPage}"></ContentControl>
+            <hc:TransitioningContentControl x:Name="ContentControl" TransitionMode="Left2RightWithFade" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Content="{Binding NavigationService.CurrentPage}"></hc:TransitioningContentControl>
             <Border Grid.Row="0">
-                <Grid MouseDown="TitleBar_MouseDown">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -52,21 +59,30 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Image VerticalAlignment="Top" Source="/Assets/CobbleIcon.png"></Image>
-                    <Button HorizontalContentAlignment="Left"   Padding="12,8,28,8"  Margin="8,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="1" Background="{Binding ThemeViewModel.TransparentColor}" Content="课表"></Button>
-                    <Button HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="2" Background="{Binding ThemeViewModel.TransparentColor}" Content="抽奖"></Button>
-                    <Button HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="3" Background="{Binding ThemeViewModel.TransparentColor}" Content="备忘"></Button>
-                    <Button HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="4" Background="{Binding ThemeViewModel.TransparentColor}" Content="白板"></Button>
-                    <Border HorizontalAlignment="Stretch" x:Name="DragBar" Grid.Column="5" ></Border>
+                    <Button BorderThickness="0" Command="{Binding ToTimetablePageCommand}" HorizontalContentAlignment="Left"   Padding="12,8,28,8"  Margin="8,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="1" Background="{Binding ThemeViewModel.TransparentBrush}" Content="课表"></Button>
+                    <Button BorderThickness="0"  HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="2" Background="{Binding ThemeViewModel.TransparentBrush}" Content="抽奖"></Button>
+                    <Button BorderThickness="0" Command="{Binding ToMemoPageCommand}" HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="3" Background="{Binding ThemeViewModel.TransparentBrush}" Content="备忘"></Button>
+                    <Button BorderThickness="0" HorizontalContentAlignment="Left"  Padding="12,8,28,8" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="4" Background="{Binding ThemeViewModel.TransparentBrush}" Content="白板"></Button>
+                    <Border  MouseDown="TitleBar_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.BaseBrush}" x:Name="DragBar" Grid.Column="5" ></Border>
 
-                    <Button Click="Minimize_Click" x:Name="Minimize" HorizontalContentAlignment="Left"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="6" Background="{Binding ThemeViewModel.TransparentColor}" Content="–"></Button>
-                    <Button Click="Maximize_Click" x:Name="Maximize" HorizontalContentAlignment="Left"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="7" Background="{Binding ThemeViewModel.TransparentColor}" Content="□"></Button>
-                    <Button Click="Close_Click" x:Name="Close" HorizontalContentAlignment="Left" Margin="0,0,8,0"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="8" Background="{Binding ThemeViewModel.TransparentColor}" Content="×"></Button>
+                    <Button BorderThickness="0" Click="Minimize_Click" x:Name="Minimize" HorizontalContentAlignment="Left"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="6" Background="{Binding ThemeViewModel.TransparentBrush}" Content="–"></Button>
+                    <Button BorderThickness="0" Click="Maximize_Click" x:Name="Maximize" HorizontalContentAlignment="Left"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="7" Background="{Binding ThemeViewModel.TransparentBrush}" Content="□"></Button>
+                    <Button BorderThickness="0" Click="Close_Click" x:Name="Exit" HorizontalContentAlignment="Left" Margin="0,0,8,0"  Padding="28,8" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="8" Background="{Binding ThemeViewModel.TransparentBrush}" Content="×"></Button>
                 </Grid>
             </Border>
 
 
-
+            <tb:TaskbarIcon IconSource="pack://application:,,,/Assets/CobbleIcon.ico" ToolTipText="Cobble" TrayMouseDoubleClick="TaskbarIcon_TrayMouseDoubleClick">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="1" BorderBrush="{Binding ThemeViewModel.MainForeground}">
+                        <MenuItem Foreground="{Binding ThemeViewModel.MainForeground}" Margin="4" x:Name="ShowItem" Header="显示配置窗口" Click="Show_Click"></MenuItem>
+                        <MenuItem Foreground="{Binding ThemeViewModel.MainForeground}" Margin="4" x:Name="CloseItem" Header="关闭程序" Click="CloseItem_Click"></MenuItem>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>
         </Grid>
+       
     </Border>
+
 
 </Window>

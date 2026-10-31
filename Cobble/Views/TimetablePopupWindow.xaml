@@ -11,21 +11,32 @@
         d:DataContext="{d:DesignInstance Type=vm:TimetablePopupWindowViewModel}"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="{Binding ThemeViewModel.TransparentColor}"
+        Background="{Binding ThemeViewModel.TransparentBrush}"
         SizeToContent="Height"
         Width="192"
         ShowInTaskbar="False"
         Topmost="True"
+        MouseDoubleClick="Window_MouseDoubleClick"
         >
-    
-    <Grid Margin="12">
-        <Border CornerRadius="6" BorderThickness="2" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseColor}"></Border>
-        <ItemsControl Padding="0,64,0,64"  ItemsSource="{Binding CurrentLessons.LessonInfos}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="models:LessonInfo">
-                    <TextBlock   Margin="0,18,0,18" FontSize="24" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LessonName}"></TextBlock>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+    <Grid>
+        <StackPanel>
+            <Border Margin="12,12,12,0" Height="18" CornerRadius="4,4,0,0" BorderThickness="1,1,1,0" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}"></Border>
+            <Grid x:Name="LessonContent" Margin="12,0,12,12">
+                <Border CornerRadius="0,0,4,4" BorderThickness="1,0,1,1" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}"></Border>
+                <ItemsControl Padding="0,64,0,64"  ItemsSource="{Binding CurrentLessons.LessonInfos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="models:LessonInfo">
+                            <Border HorizontalAlignment="Stretch" Margin="12,0,12,0" VerticalAlignment="Center" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" BorderThickness="0,1,0,1">
+                                <TextBlock   Margin="0,18,0,18" FontSize="24" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LessonName}"></TextBlock>
+                            </Border>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </StackPanel>
+
     </Grid>
+
 </Window>

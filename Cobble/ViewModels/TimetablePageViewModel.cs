@@ -3,6 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using Cobble.Models;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
+using CommunityToolkit.Mvvm.Messaging;
+using Cobble.Messages;
+using Microsoft.Extensions.Logging;
 
 namespace Cobble.ViewModels
 {
@@ -32,6 +36,7 @@ namespace Cobble.ViewModels
             { 18, "生态ODC课程" },
             { 19, "校本" }
         };
+        readonly ILogger<TimetablePageViewModel> _logger;
         private readonly TimetablePopupWindowViewModel _popupViewModel;
         private bool _isPopupWindowVisible = false;
         private int _columnCount = 5;
@@ -47,53 +52,51 @@ namespace Cobble.ViewModels
         [ObservableProperty]
         string _rowCountInput = "8";
         public int[] DayNumbers { get; } = [.. Enumerable.Range(1, 7)];
-        private DailyLessonInfos GetCurrentLessonInfos() 
+        private DailyLessonInfos GetCurrentLessonInfos()
         {
             int dayInWeek = (int)DateTime.Now.DayOfWeek;
+            if (dayInWeek == 0) dayInWeek = 7;
             if (dayInWeek <= _columnCount)
             {
                 List<LessonInfo> lessonInfos = [];
-                foreach(var y in WeeklyLessonInfos)
+                foreach (var y in WeeklyLessonInfos)
                 {
-                    lessonInfos.Add(y.LessonInfos[dayInWeek]);
+                    lessonInfos.Add(y.LessonInfos[dayInWeek - 1]);
                 }
                 return new DailyLessonInfos([.. lessonInfos]);
             }
             else
             {
-
                 return new DailyLessonInfos([new() { LessonName = "非学习日" }]);
             }
         }
 
         private async Task GenerateMap()
         {
-            DailyLessonInfos[] map = [];
-#pragma warning disable CS0168 //等待日志添加
             try
             {
+                DailyLessonInfos[] map = [];
                 await Task.Run(() =>
                 {
                     map =
                     Enumerable.Range(0, _rowCount).Select(x => new DailyLessonInfos(Enumerable.Range(0, _columnCount).Select(x => new LessonInfo()).ToArray())).ToArray();
                 });
+
+                WeeklyLessonInfos = new(map);
+                _popupViewModel.CurrentLessons = GetCurrentLessonInfos();
             }
             catch (Exception ex)
             {
-                //Going to log it
+                _logger.LogError(ex, "Fire-and-forgot GenerateMap failed");
             }
-#pragma warning restore CS0168 
 
-            WeeklyLessonInfos = new(map);
-            _popupViewModel.CurrentLessons = GetCurrentLessonInfos();
         }
         private bool CheckDataInput(int max, int min, string message, string input, out int value)
         {
             value = default;
             if (int.TryParse(input, out var count) && count <= max && count >= min)
             {
-                if (TipText.Contains(message))
-                    TipText.Remove(message);
+                TipText.Remove(message);
                 value = count;
                 return true;
             }
@@ -140,10 +143,15 @@ namespace Cobble.ViewModels
 
         }
 
-        public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel) : base(themeViewModel, windowService)
+        public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel, ILogger<TimetablePageViewModel> logger) : base(themeViewModel, windowService)
         {
+            _logger = logger;
             _popupViewModel = timetablePopupWindowViewModel;
             _ = GenerateMap();
+            WeakReferenceMessenger.Default.Register<TimetablePopupClosedMessage>(this, (r, m) =>
+            {
+                _isPopupWindowVisible = false;
+            });
         }
 
 

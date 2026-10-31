@@ -1,15 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Logging;
 using System.Windows.Media;
+
+
 
 namespace Cobble.ViewModels
 {
     
     public partial class ThemeViewModel : ObservableObject
     {
-        private static Brush ToBrush(string hexColor)
+        private ILogger<ThemeViewModel> _logger;
+        private Brush ToBrush(string hexColor)
         {
             Brush? brush;
             try
@@ -19,24 +20,57 @@ namespace Cobble.ViewModels
             catch
             {
                 brush = Brushes.Transparent;
-                //此处以后做日志记录
+                _logger.LogInformation("Cannot convert hex value {Hex}", hexColor);
             }
             return brush;
         }
+        private Color ToColor(string hexColor)
+        {
+            try
+            {
+                return (Color)ColorConverter.ConvertFromString(hexColor);
+            }
+            catch
+            {
+                _logger.LogInformation("Cannot convert hex value {Hex}", hexColor);
+                return Colors.White;
+            }
+        }
 
         [ObservableProperty]
-        Brush _baseColor = ToBrush("#121418");
+        Brush _baseBrush;
         [ObservableProperty]
-        Brush _surfaceColor = ToBrush("#1C1F26");
+        Color _baseColor;
         [ObservableProperty]
-        Brush _popupColor = ToBrush("#282C35");
+        Brush _surfaceBrush;
         [ObservableProperty]
-        Brush _themeColor = ToBrush("#4476D1");
+        Color _surfaceColor;
         [ObservableProperty]
-        Brush _mainForeground = ToBrush("#FFFFFF");
+        Brush _popupBrush;
         [ObservableProperty]
-        Brush _warningForeground = ToBrush("#C33F3F");
+        Brush _themeBrush;
         [ObservableProperty]
-        Brush _transparentColor = Brushes.Transparent;
+        Brush _mainForeground;
+        [ObservableProperty]
+        Color _shadowColor = Colors.White;
+        [ObservableProperty]
+        Brush _warningForeground;
+        [ObservableProperty]
+        Brush _transparentBrush = Brushes.Transparent;
+        public ThemeViewModel(ILogger<ThemeViewModel> logger)
+        {
+            _logger = logger;
+
+            BaseBrush = ToBrush("#0E1116");
+            BaseColor = ToColor("#0E1116");
+            SurfaceBrush = ToBrush("#171C24");
+            SurfaceColor = ToColor("#171C24");
+            PopupBrush = ToBrush("#222A35");
+            ThemeBrush = ToBrush("#4476D1");
+            MainForeground = ToBrush("#FFFFFF");
+            ShadowColor = Colors.White;
+            WarningForeground = ToBrush("#C33F3F");
+            TransparentBrush = Brushes.Transparent;
+        }
     }
 }

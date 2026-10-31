@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Cobble.Messages;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace Cobble.Views
 {
@@ -22,6 +16,10 @@ namespace Cobble.Views
             InitializeComponent();
             Loaded += TimetablePopupWindow_Loaded;
             SizeChanged += TimetablePopupWindow_SizeChanged;
+            Closed += (s, e) =>
+            {
+                WeakReferenceMessenger.Default.Send<TimetablePopupClosedMessage>();
+            };
         }
 
         private void TimetablePopupWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -35,6 +33,11 @@ namespace Cobble.Views
             var workArea = SystemParameters.WorkArea;
             this.Left = workArea.Right - this.ActualWidth;
             this.Top = workArea.Top + (workArea.Height -  this.ActualHeight) / 2;
+        }
+
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Close();
         }
     }
 }

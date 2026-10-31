@@ -1,9 +1,5 @@
 ﻿using Cobble.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Cobble.ViewModels
 {
@@ -11,6 +7,5 @@ namespace Cobble.ViewModels
     {
         [ObservableProperty]
         DailyLessonInfos? _currentLessons;
-
     }
 }

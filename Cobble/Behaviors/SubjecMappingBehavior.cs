@@ -1,8 +1,4 @@
-﻿using MaterialDesignThemes.Wpf.Converters;
-using Microsoft.Xaml.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xaml.Behaviors;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
@@ -10,7 +6,6 @@ namespace Cobble.Behaviors
 {
     public class SubjectMappingBehavior : Behavior<TextBox>
     {
-        private bool _isUpdating = false;
         private static readonly Dictionary<int, string> _subjectMapping = new()
         {
             { 1, "语文" },

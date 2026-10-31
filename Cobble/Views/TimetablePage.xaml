@@ -13,14 +13,27 @@
              
              >
 
-    <Grid>
-        <Border CornerRadius="6" Margin="12" Background="{Binding ThemeViewModel.SurfaceColor}">
-            <Grid>
+    <Grid x:Name="RootGrid">
+        <Border CornerRadius="6" Margin="24" Padding="12">
+            <Border.Background >
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="{Binding DataContext.ThemeViewModel.SurfaceColor,ElementName=RootGrid}"></GradientStop>
+                    <GradientStop Offset="1" Color="{Binding DataContext.ThemeViewModel.BaseColor,ElementName=RootGrid}"></GradientStop>
+
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Border Margin="0,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.PopupColor}" CornerRadius="0,20,20,0">
+                <Border HorizontalAlignment="Stretch" Margin="12,32,0,0" Padding="16,12,64,12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6">
+                    <Border.Effect>
+                        <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
+                    </Border.Effect>
+                </Border>
+                <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
@@ -49,87 +62,171 @@
 
 
                 </Border>
+
                 <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
                     <StackPanel>
-                        
-                        <Border Margin="0,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.PopupColor}" CornerRadius="0,20,20,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <Grid>
+                                    <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
+                                        </Border.Effect>
 
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表设置"></TextBlock>
-                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Settings"></TextBlock>
-                        </StackPanel>
+                                    </Border>
+                                    <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+                                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表设置"></TextBlock>
+                                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Settings"></TextBlock>
+                                        </StackPanel>
 
-                    </Border>
+                                    </Border>
+                                </Grid>
+                                
 
 
 
-                    <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                        <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表行数"></TextBlock>
-                        <TextBox Text="{Binding RowCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupColor}"></TextBox>
-                    </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表行数"></TextBlock>
+                                    <TextBox Text="{Binding RowCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                        <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表列数"></TextBlock>
-                        <TextBox Text="{Binding ColumnCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupColor}"></TextBox>
-                    </StackPanel>
-                    <ItemsControl ItemsSource="{Binding TipText}" >
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="12,12,0,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表列数"></TextBlock>
+                                    <TextBox Text="{Binding ColumnCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                
+                                
+                                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                                <!--以后可能会加的属性，为了UI占位-->
+                                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
+                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
+                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                </StackPanel>
+                                <!--END-->
 
-                    </ItemsControl>
-                    <Border Padding="16,12,64,12" Margin="0,32,0,0" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.PopupColor}" CornerRadius="0,20,20,0">
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表预览与修改"></TextBlock>
-                            <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Preview &amp; Modify"></TextBlock>
-                        </StackPanel>
 
-                    </Border>
 
-                    <ItemsControl ItemsSource="{Binding WeeklyLessonInfos}" Margin="12,12,0,0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ItemsControl ItemsSource="{Binding LessonInfos}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Rows="1"></UniformGrid>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
+                                <ItemsControl ItemsSource="{Binding TipText}" >
                                     <ItemsControl.ItemTemplate>
-
                                         <DataTemplate>
-                                            <Border Opacity="0" BorderThickness="1" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Height="64" >
-                                                <Border.Triggers>
-                                                    <EventTrigger RoutedEvent="Loaded">
-                                                        <BeginStoryboard>
-                                                            <Storyboard  >
-                                                                <DoubleAnimation Duration="0:0:1" From="0" To="1" Storyboard.TargetProperty="Opacity">
+                                            <TextBlock Margin="12,12,0,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
 
-                                                                    <DoubleAnimation.EasingFunction>
-                                                                        <CubicEase EasingMode="EaseIn"></CubicEase>
-                                                                    </DoubleAnimation.EasingFunction>
-                                                                </DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
+                                </ItemsControl>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <Grid>
+                                    <Border Padding="16,12,64,12" Margin="12,32,12,0" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
+                                        </Border.Effect>
 
-                                                    </EventTrigger>
-                                                </Border.Triggers>
-                                                <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.PopupColor}"  Margin="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LessonName,Mode=TwoWay}">
-                                                    <i:Interaction.Behaviors>
-                                                        <behaviors:SubjectMappingBehavior></behaviors:SubjectMappingBehavior>
-                                                    </i:Interaction.Behaviors>
-                                                </TextBox>
+                                    </Border>
+                                    <Border Padding="16,12,64,12" Margin="12,32,12,0" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表预览与修改"></TextBlock>
+                                                <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Preview &amp; Modify"></TextBlock>
 
-                                            </Border>
+                                            </StackPanel>
+                                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                                <Button  BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="👁"  Command="{Binding TogglePopupWindowCommand}">
+
+                                                </Button>
+                                                <TextBlock Margin="0,6,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="显示/隐藏课表浮动"></TextBlock>
+                                            </StackPanel>
+                                            
+                                        </Grid>
+                                        
+                                        
+
+                                    </Border>
+                                </Grid>
+                                
+
+                                <ItemsControl ItemsSource="{Binding WeeklyLessonInfos}" Margin="12,24,12,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <ItemsControl ItemsSource="{Binding LessonInfos}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Rows="1"></UniformGrid>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+
+                                                    <DataTemplate>
+                                                        <Border Opacity="0" BorderThickness="1" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Height="64" >
+                                                            <Border.Triggers>
+                                                                <EventTrigger RoutedEvent="Loaded">
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard  >
+                                                                            <DoubleAnimation Duration="0:0:1" From="0" To="1" Storyboard.TargetProperty="Opacity">
+
+                                                                                <DoubleAnimation.EasingFunction>
+                                                                                    <CubicEase EasingMode="EaseIn"></CubicEase>
+                                                                                </DoubleAnimation.EasingFunction>
+                                                                            </DoubleAnimation>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+
+                                                                </EventTrigger>
+                                                            </Border.Triggers>
+                                                            <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.PopupBrush}"  Margin="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LessonName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                                <i:Interaction.Behaviors>
+                                                                    <behaviors:SubjectMappingBehavior></behaviors:SubjectMappingBehavior>
+                                                                </i:Interaction.Behaviors>
+                                                            </TextBox>
+
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                        <Button HorizontalAlignment="Left" Margin="12" Background="{Binding ThemeViewModel.PopupColor}" Content="显示/隐藏浮动课表" Command="{Binding TogglePopupWindowCommand}"></Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                        
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

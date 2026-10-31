@@ -6,18 +6,25 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
-		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-		<PackageReference Include="MaterialDesignThemes" Version="5.4.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.13" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
+	  <None Remove="Assets\CobbleIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.13" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Assets\CobbleIcon.ico" />
 		<Resource Include="Assets\CobbleIcon.png" />
 	</ItemGroup>
 

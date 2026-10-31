@@ -1,13 +1,7 @@
 ﻿using Cobble.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace Cobble.Services
 {
@@ -35,6 +29,13 @@ namespace Cobble.Services
                 }
                 window.DataContext = vm;
                 Windows[vm] = window;
+                window.Closed += (s, e) =>
+                {
+                    if (Windows.ContainsKey(vm))
+                    {
+                        Windows.Remove(vm);
+                    }
+                };
                 window.Show();
             }
         }
