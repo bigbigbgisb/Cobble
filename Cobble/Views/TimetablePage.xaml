@@ -32,33 +32,35 @@
                         <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
                     </Border.Effect>
                 </Border>
-                <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+                <Border HorizontalAlignment="Stretch" Margin="12,32,0,0" Padding="16,12,64,12"  Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+                    
+                        <Grid Margin="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="映射表"></TextBlock>
+                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Mapping table"></TextBlock>
+                                <TextBlock Margin="0,12,0,0"  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="14" Text="可选快捷输入 (在输入栏填入数字,紧接着按下分号,自动映射为课程名)"></TextBlock>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="映射表"></TextBlock>
-                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Mapping table"></TextBlock>
-                            <TextBlock Margin="0,12,0,0"  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="14" Text="可选快捷输入 (在输入栏填入数字,紧接着按下分号,自动映射为课程名)"></TextBlock>
+                            </StackPanel>
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding SubjectHints}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Foreground="{Binding DataContext.ThemeViewModel.MainForeground, RelativeSource={RelativeSource AncestorType=ItemsControl}}" FontSize="14" Margin="0,12,12,0" Text="{Binding}"></TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                        </StackPanel>
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding SubjectHints}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Foreground="{Binding DataContext.ThemeViewModel.MainForeground, RelativeSource={RelativeSource AncestorType=ItemsControl}}" FontSize="14" Margin="0,12,12,0" Text="{Binding}"></TextBlock>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        </Grid>
 
-                    </Grid>
+                    
 
 
                 </Border>
@@ -80,10 +82,14 @@
 
                                     </Border>
                                     <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
-                                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表设置"></TextBlock>
-                                            <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Settings"></TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border VerticalAlignment="Stretch" Width="8" Background="{Binding ThemeViewModel.ThemeBrush}" CornerRadius="4"></Border>
+                                            <StackPanel Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表设置"></TextBlock>
+                                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Settings"></TextBlock>
+                                            </StackPanel>
                                         </StackPanel>
+                                        
 
                                     </Border>
                                 </Grid>
@@ -160,10 +166,13 @@
                                     </Border>
                                     <Border Padding="16,12,64,12" Margin="12,32,12,0" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
                                         <Grid HorizontalAlignment="Stretch">
-                                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表预览与修改"></TextBlock>
-                                                <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Preview &amp; Modify"></TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border VerticalAlignment="Stretch" Width="8" Background="{Binding ThemeViewModel.ThemeBrush}" CornerRadius="4"></Border>
+                                                <StackPanel Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表预览与修改"></TextBlock>
+                                                    <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Preview &amp; Modify"></TextBlock>
 
+                                                </StackPanel>
                                             </StackPanel>
                                             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch">
                                                 <Button  BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="👁"  Command="{Binding TogglePopupWindowCommand}">

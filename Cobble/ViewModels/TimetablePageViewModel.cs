@@ -78,8 +78,9 @@ namespace Cobble.ViewModels
                 DailyLessonInfos[] map = [];
                 await Task.Run(() =>
                 {
-                    map =
-                    Enumerable.Range(0, _rowCount).Select(x => new DailyLessonInfos(Enumerable.Range(0, _columnCount).Select(x => new LessonInfo()).ToArray())).ToArray();
+                    map = [.. Enumerable.Range(0, _rowCount)
+                        .Select(_ => new DailyLessonInfos([.. Enumerable.Range(0, _columnCount).Select(_ => new LessonInfo())]))
+                    ];
                 });
 
                 WeeklyLessonInfos = new(map);
@@ -112,6 +113,7 @@ namespace Cobble.ViewModels
         [RelayCommand]
         private void TogglePopupWindow()
         {
+            
             if (!_isPopupWindowVisible)
             {
                 _popupViewModel.CurrentLessons = GetCurrentLessonInfos();

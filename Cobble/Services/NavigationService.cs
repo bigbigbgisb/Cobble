@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
-using Cobble.Abstactions;
-using System.Diagnostics;
+using Cobble.Abstractions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Xaml.Behaviors.Core;
 
 namespace Cobble.Services
 {

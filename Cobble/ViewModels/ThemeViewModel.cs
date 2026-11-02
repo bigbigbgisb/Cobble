@@ -9,7 +9,7 @@ namespace Cobble.ViewModels
     
     public partial class ThemeViewModel : ObservableObject
     {
-        private ILogger<ThemeViewModel> _logger;
+        private readonly ILogger<ThemeViewModel> _logger;
         private Brush ToBrush(string hexColor)
         {
             Brush? brush;
@@ -60,7 +60,6 @@ namespace Cobble.ViewModels
         public ThemeViewModel(ILogger<ThemeViewModel> logger)
         {
             _logger = logger;
-
             BaseBrush = ToBrush("#0E1116");
             BaseColor = ToColor("#0E1116");
             SurfaceBrush = ToBrush("#171C24");

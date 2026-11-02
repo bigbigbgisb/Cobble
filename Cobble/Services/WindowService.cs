@@ -1,12 +1,14 @@
 ﻿using Cobble.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Cobble.Services
 {
-    public class WindowService : IWindowService
+    public class WindowService(ILogger<WindowService> logger) : IWindowService
     {
+        private readonly ILogger _logger = logger;
         public Dictionary<ViewModelBase, Window> Windows { get; set; } = [];
         public void ShowWindow<T>() where T : ViewModelBase
         {
@@ -27,6 +29,10 @@ namespace Cobble.Services
                         window = w;
                     }
                 }
+                else
+                {
+                    _logger.LogWarning("Cannot find view {WindowName}", windowName);
+                }
                 window.DataContext = vm;
                 Windows[vm] = window;
                 window.Closed += (s, e) =>
@@ -42,12 +48,16 @@ namespace Cobble.Services
         public void CloseWindow<T>() where T : ViewModelBase
         {
             var vm = App.Services?.GetRequiredService<T>();
-            if (vm is not null)
+            if (vm is not null && Windows.ContainsKey(vm))
             {
                 Windows[vm].Close();
                 Windows.Remove(vm);
             }
-                
+            else
+            {
+                _logger.LogWarning("Cannot close an already closed window {ViewModel} (viewmodel) ", typeof(T).FullName);
+            }
+
         }
     }
 }

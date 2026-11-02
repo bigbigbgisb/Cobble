@@ -32,10 +32,14 @@
 
                         </Border>
                         <Border Margin="12,32,12,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="添加备忘录"></TextBlock>
-                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Add Memo"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Border VerticalAlignment="Stretch" Width="8" Background="{Binding ThemeViewModel.ThemeBrush}" CornerRadius="4"></Border>
+                                <StackPanel Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="添加备忘录"></TextBlock>
+                                    <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Add Memo"></TextBlock>
+                                </StackPanel>
                             </StackPanel>
+                            
 
                         </Border>
                     </Grid>
@@ -56,40 +60,70 @@
                             </Border.Effect>
 
                         </Border>
-                        <Border Margin="12,32,12,12" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="今日已添加的备忘录"></TextBlock>
-                                <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Current Memos"></TextBlock>
-                                <ItemsControl ItemsSource="{Binding Memos}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBlock Margin="0,12,0,0" Text="{Binding Key}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="20"></TextBlock>
-                                                <ItemsControl ItemsSource="{Binding Value}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                                                                <TextBlock VerticalAlignment="Center" Text="{Binding Memo, StringFormat='    {0}'}"  Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="14">
-                                                                </TextBlock>
-                                                                <Button VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.DeleteMemoCommand}" Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.TransparentBrush}" Margin="12,0,0,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="14" Content="删除">
-                                                                    <Button.CommandParameter>
-                                                                        <MultiBinding Converter="{StaticResource TupleConverter}">
-                                                                            <Binding Path="Memo"></Binding>
-                                                                            <Binding Path="Key"></Binding>
-                                                                        </MultiBinding>
-                                                                    </Button.CommandParameter>
-                                                                </Button>
-                                                            </StackPanel>
+                        <Border  Margin="12,32,12,12" Padding="16,12,64,12" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border VerticalAlignment="Stretch" Width="8" Background="{Binding ThemeViewModel.ThemeBrush}" CornerRadius="4"></Border>
+                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Margin="12,0,0,0"  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="今日已添加的备忘录"></TextBlock>
+                                        <TextBlock Margin="12,0,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Current Memos"></TextBlock>
+                                        <ItemsControl Margin="12,0,0,0" ItemsSource="{Binding Memos}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock TextWrapping="Wrap" Margin="0,12,0,0" Text="{Binding Key}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="20"></TextBlock>
+                                                        <ItemsControl ItemsSource="{Binding Value}">
+      
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Memo, StringFormat='    {0}'}"  Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="14">
+                                                                        </TextBlock>
+                                                                        <Button VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.DeleteMemoCommand}" Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.TransparentBrush}" Margin="12,0,0,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" FontSize="14" Content="删除">
+                                                                            <Button.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource TupleConverter}">
+                                                                                    <Binding Path="Memo"></Binding>
+                                                                                    <Binding Path="Key"></Binding>
+                                                                                </MultiBinding>
+                                                                            </Button.CommandParameter>
+                                                                        </Button>
+                                                                    </StackPanel>
 
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
 
-                                </ItemsControl>
-                            </StackPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Orientation="Horizontal">
+                                    <StackPanel Margin="12" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                        <Button  BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="👁"  Command="{Binding TogglePopupWindowCommand}">
+
+                                        </Button>
+                                        <TextBlock Margin="0,6,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="显示/隐藏主控台浮动"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="12" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                        <Button x:Name="ExportMemo" Click="ExportMemo_Click" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="💾">
+
+                                        </Button>
+                                        <TextBlock Margin="0,6,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="导出备忘录"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="12" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                        <Button x:Name="LoadMemo" Click="LoadMemo_Click" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="📥">
+
+                                        </Button>
+                                        <TextBlock Margin="0,6,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="导入备忘录"></TextBlock>
+                                    </StackPanel>
+                                    
+                                </StackPanel>
+                                
+                            </Grid>
+                            
+                            
                         </Border>
                     </Grid>
 

@@ -1,5 +1,4 @@
-﻿
-namespace Cobble.Messages
+﻿namespace Cobble.Messages
 {
     public record TimetablePopupClosedMessage;
 }

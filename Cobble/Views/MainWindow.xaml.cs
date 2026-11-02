@@ -1,4 +1,8 @@
-﻿using Cobble.ViewModels;
+﻿using Cobble.Messages;
+using Cobble.ViewModels;
+using CommunityToolkit.Mvvm.Messaging;
+using HandyControl.Controls;
+using HandyControl.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,14 +13,26 @@ namespace Cobble
     /// Interaction logic for MainWindow.xaml
     /// </summary>
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
 
         public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
             DataContext = mainWindowViewModel;
+            WeakReferenceMessenger.Default.Register<ShowTipMessage>(this, (r, m) =>
+            {
+                GrowlInfo growlInfo = new()
+                {
+                    Message = m.Message,
+                    WaitTime = 2,    
+                };
 
+                if (m.IsWarning)
+                    Growl.Warning(growlInfo);
+                else
+                    Growl.Success(growlInfo);
+            });
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
