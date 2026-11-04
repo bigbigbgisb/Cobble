@@ -7,6 +7,7 @@ using System.Windows;
 using CommunityToolkit.Mvvm.Messaging;
 using Cobble.Messages;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Cobble.ViewModels
 {
@@ -36,6 +37,7 @@ namespace Cobble.ViewModels
             { 18, "生态ODC课程" },
             { 19, "校本" }
         };
+        private ApplicationData _applicationData;
         readonly ILogger<TimetablePageViewModel> _logger;
         private readonly TimetablePopupWindowViewModel _popupViewModel;
         private bool _isPopupWindowVisible = false;
@@ -52,16 +54,24 @@ namespace Cobble.ViewModels
         [ObservableProperty]
         string _rowCountInput = "8";
         public int[] DayNumbers { get; } = [.. Enumerable.Range(1, 7)];
+        partial void OnTipTextChanged(ObservableCollection<string> value)
+        {
+            _applicationData.TimetablePageData.TipText = TipText;
+        }
+        partial void OnWeeklyLessonInfosChanged(ObservableCollection<DailyLessonInfos> value)
+        {
+            _applicationData.TimetablePageData.DailyLessonInfos = WeeklyLessonInfos;
+        }
         private DailyLessonInfos GetCurrentLessonInfos()
         {
-            int dayInWeek = (int)DateTime.Now.DayOfWeek;
-            if (dayInWeek == 0) dayInWeek = 7;
-            if (dayInWeek <= _columnCount)
+            int dayOfWeek = (int)DateTime.Now.DayOfWeek;
+            if (dayOfWeek == 0) dayOfWeek = 7;
+            if (dayOfWeek <= _columnCount)
             {
                 List<LessonInfo> lessonInfos = [];
                 foreach (var y in WeeklyLessonInfos)
                 {
-                    lessonInfos.Add(y.LessonInfos[dayInWeek - 1]);
+                    lessonInfos.Add(y.LessonInfos[dayOfWeek - 1]);
                 }
                 return new DailyLessonInfos([.. lessonInfos]);
             }
@@ -91,6 +101,7 @@ namespace Cobble.ViewModels
                 _logger.LogError(ex, "Fire-and-forgot GenerateMap failed");
             }
 
+
         }
         private bool CheckDataInput(int max, int min, string message, string input, out int value)
         {
@@ -99,14 +110,17 @@ namespace Cobble.ViewModels
             {
                 TipText.Remove(message);
                 value = count;
+
                 return true;
             }
             else
             {
                 if (!TipText.Contains(message))
                     TipText.Add(message);
+
                 return false;
             }
+           
 
 
         }
@@ -132,6 +146,7 @@ namespace Cobble.ViewModels
             if (CheckDataInput(8, 1, $"列数据必须在 1 到 8 之间", value, out var count))
             {
                 _columnCount = count;
+                _applicationData.TimetablePageData.ColumnCount = count;
                 _ = GenerateMap();
             }
         }
@@ -140,16 +155,27 @@ namespace Cobble.ViewModels
             if (CheckDataInput(18, 1, $"行数据必须在 1 到 18 之间", value, out var count))
             {
                 _rowCount = count;
+                _applicationData.TimetablePageData.RowCount = count;
                 _ = GenerateMap();
             }
 
         }
 
-        public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel, ILogger<TimetablePageViewModel> logger) : base(themeViewModel, windowService)
+        public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel, ILogger<TimetablePageViewModel> logger,ApplicationData applicationData) : base(themeViewModel, windowService)
         {
+            _applicationData = applicationData;
+            ColumnCountInput = _applicationData.TimetablePageData.ColumnCount.ToString();
+            RowCountInput = _applicationData.TimetablePageData.RowCount.ToString();
+            _columnCount = _applicationData.TimetablePageData.ColumnCount;
+            _rowCount = _applicationData.TimetablePageData.RowCount;
+            WeeklyLessonInfos = _applicationData.TimetablePageData.DailyLessonInfos;
+            TipText = _applicationData.TimetablePageData.TipText;
             _logger = logger;
             _popupViewModel = timetablePopupWindowViewModel;
-            _ = GenerateMap();
+            if (WeeklyLessonInfos.Count == 0)
+            {
+                _ = GenerateMap();
+            }
             WeakReferenceMessenger.Default.Register<TimetablePopupClosedMessage>(this, (r, m) =>
             {
                 _isPopupWindowVisible = false;

@@ -10,7 +10,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="MainWindow"
-        Icon="pack://application:,,,/Assets/CobbleIcon.ico"
+        Icon="pack://application:,,,/Cobble;component/Assets/CobbleIcon.ico"
         Height="600"
         Width="1200"
         MinHeight="470"
@@ -18,6 +18,7 @@
         xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         Background="Transparent"
+        x:Name="RootWindow"
         >
     
     <!--窗口自定义-->
@@ -26,7 +27,10 @@
             ResizeBorderThickness="5" 
             CaptionHeight="0" 
             GlassFrameThickness="0" 
-            CornerRadius="15" />
+            CornerRadius="15" 
+            
+           
+            />
     </WindowChrome.WindowChrome>
     
     <!--资源字典联系ViewModel与View-->
@@ -37,11 +41,21 @@
         <DataTemplate DataType="{x:Type vm:MemoPageViewModel}">
             <views:MemoPage></views:MemoPage>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LuckyDrawPageViewModel}">
+            <views:LuckyDrawPage></views:LuckyDrawPage>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsPageViewModel}">
+            <views:SettingsPage></views:SettingsPage>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EasterEggPageViewModel}">
+            <views:EasterEggPage></views:EasterEggPage>
+        </DataTemplate>
     </Window.Resources>
 
 
 
-    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Background="{Binding ThemeViewModel.BaseBrush}">
+    <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Background="{Binding ThemeViewModel.BaseBrush}">
+
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -64,22 +78,24 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image VerticalAlignment="Top" Source="/Assets/CobbleIcon.png"></Image>
+                    <Image VerticalAlignment="Top" Source="pack://application:,,,/Cobble;component/Assets/CobbleIcon.png"></Image>
                     <Button BorderThickness="0" Command="{Binding ToTimetablePageCommand}" HorizontalContentAlignment="Left"   Padding="12,4,18,4"  Margin="8,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="1" Background="{Binding ThemeViewModel.TransparentBrush}" Content="课表"></Button>
-                    <Button BorderThickness="0"  HorizontalContentAlignment="Left"  Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="2" Background="{Binding ThemeViewModel.TransparentBrush}" Content="抽奖"></Button>
+                    <Button BorderThickness="0" Command="{Binding ToLuckyDrawPageCommand}"  HorizontalContentAlignment="Left"   Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="2" Background="{Binding ThemeViewModel.TransparentBrush}" Content="抽奖"></Button>
                     <Button BorderThickness="0" Command="{Binding ToMemoPageCommand}" HorizontalContentAlignment="Left"  Padding="12,4,28,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="3" Background="{Binding ThemeViewModel.TransparentBrush}" Content="备忘"></Button>
-                    <Button BorderThickness="0" HorizontalContentAlignment="Left"  Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="4" Background="{Binding ThemeViewModel.TransparentBrush}" Content="白板"></Button>
+                    <Button BorderThickness="0" Command="{Binding ToSettingsPageCommand}" HorizontalContentAlignment="Left"  Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="4" Background="{Binding ThemeViewModel.TransparentBrush}" Content="设置"></Button>
                     <Border  MouseDown="TitleBar_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.BaseBrush}" x:Name="DragBar" Grid.Column="5" ></Border>
 
                     <Button BorderThickness="0" Click="Minimize_Click" x:Name="Minimize" HorizontalContentAlignment="Left"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="6" Background="{Binding ThemeViewModel.TransparentBrush}" Content="–"></Button>
                     <Button BorderThickness="0" Click="Maximize_Click" x:Name="Maximize" HorizontalContentAlignment="Left"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="7" Background="{Binding ThemeViewModel.TransparentBrush}" Content="□"></Button>
                     <Button BorderThickness="0" Click="Close_Click" x:Name="Exit" HorizontalContentAlignment="Left" Margin="0,0,8,0"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="8" Background="{Binding ThemeViewModel.TransparentBrush}" Content="×"></Button>
+                    <Button BorderThickness="0" Command="{Binding ToEasterEggPageCommand}" Cursor="Hand" HorizontalContentAlignment="Left"   Padding="4,4"  Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="9" Background="{Binding ThemeViewModel.TransparentBrush}"></Button>
                 </Grid>
             </Border>
 
 
-            <tb:TaskbarIcon IconSource="pack://application:,,,/Assets/CobbleIcon.ico" ToolTipText="Cobble" TrayMouseDoubleClick="TaskbarIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon IconSource="pack://application:,,,/Cobble;component/Assets/CobbleIcon.ico" ToolTipText="Cobble" TrayMouseDoubleClick="TaskbarIcon_TrayMouseDoubleClick">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="1" BorderBrush="{Binding ThemeViewModel.MainForeground}">
                         <MenuItem Foreground="{Binding ThemeViewModel.MainForeground}" Margin="4" x:Name="ShowItem" Header="显示配置窗口" Click="Show_Click"></MenuItem>

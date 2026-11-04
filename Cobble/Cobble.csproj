@@ -6,13 +6,21 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
+		<Version>1.0.0.0</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<ApplicationIcon>Assets\CobbleIcon.ico</ApplicationIcon>
 	</PropertyGroup>
+	
 
 	<ItemGroup>
 	  <None Remove="Assets\CobbleIcon.ico" />
+	  <None Remove="Assets\CocaCola_can.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+		<PackageReference Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="HandyControl" Version="3.5.1" />
 		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
@@ -21,11 +29,25 @@
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="WindowsAutostartApi" Version="1.0.2" />
+		<Compile Update="**\*.cs" CopyToOutputDirectory="PreserveNewest"></Compile>
+		<None Update="Assets\*.mp3" CopyToOutputDirectory="PreserveNewest"></None>
+		
 	</ItemGroup>
 
 	<ItemGroup>
 		<Resource Include="Assets\CobbleIcon.ico" />
 		<Resource Include="Assets\CobbleIcon.png" />
+		<Resource Include="Assets\CocaCola_can.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\CsharpHighlighting.xshd">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Assets\girlfromsmalltown.mp3">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 

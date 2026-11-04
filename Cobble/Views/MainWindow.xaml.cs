@@ -90,7 +90,7 @@ namespace Cobble
 
         private void CloseItem_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            Application.Current.Shutdown();
         }
 
     }

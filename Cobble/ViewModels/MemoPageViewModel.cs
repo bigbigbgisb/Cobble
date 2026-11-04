@@ -9,20 +9,36 @@ using System.IO;
 using System.Windows.Controls;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Cobble.Parsers;
+using Cobble.Services;
 
 
 namespace Cobble.ViewModels
 {
     public partial class MemoPageViewModel : PageViewModelBase
     {
-        public record MemoInfo(string Memo, string Key);
+        private ApplicationData _applicationData;
         private ILogger<MemoPageViewModel> _logger;
+        private MemoParser _memoParser = new();
+        private MemoFileStore _memoFileStore = new();
         [ObservableProperty]
         Dictionary<string, ObservableCollection<MemoInfo>> _memos = [];
         [ObservableProperty]
         string? _currentSubject;
         [ObservableProperty]
         string? _currentMemo;
+        partial void OnCurrentMemoChanged(string? value)
+        {
+            _applicationData.MemoPageData.CurrentMemo = CurrentMemo ?? "";
+        }
+        partial void OnCurrentSubjectChanged(string? value)
+        {
+            _applicationData.MemoPageData.CurrentSubject = CurrentSubject ?? "";
+        }
+        partial void OnMemosChanged(Dictionary<string, ObservableCollection<MemoInfo>> value)
+        {
+            _applicationData.MemoPageData.Memos = Memos;
+        }
         [RelayCommand]
         private void AddMemo()
         {
@@ -66,7 +82,7 @@ namespace Cobble.ViewModels
                 if (memoInfo is not null)
                     value.Remove(memoInfo);
                 RemoveZeroLengthSubject();
-                Memos = new Dictionary<string, ObservableCollection<MemoInfo>>(Memos);
+                Memos = new Dictionary<string, ObservableCollection<MemoInfo>>(Memos);          
                 WeakReferenceMessenger.Default.Send(new UpdateDashboardMemoInfoMessage(new DashboardMemoInfo(Memos)));
             }
         }
@@ -88,9 +104,13 @@ namespace Cobble.ViewModels
             if (keys.Count > 0)
                 foreach (var key in keys) Memos.Remove(key);
         }
-        public MemoPageViewModel(ThemeViewModel themeViewModel, IWindowService windowService,ILogger<MemoPageViewModel> logger) : base(themeViewModel, windowService)
+        public MemoPageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, ILogger<MemoPageViewModel> logger,ApplicationData applicationData) : base(themeViewModel, windowService)
         {
             _logger = logger;
+            _applicationData = applicationData;
+            Memos = _applicationData.MemoPageData.Memos;
+            CurrentSubject = applicationData.MemoPageData.CurrentSubject;
+            CurrentMemo = applicationData.MemoPageData.CurrentMemo;
             WeakReferenceMessenger.Default.Register<PullDashboardMemoInfoMessage>(this, (r, m) =>
             {
                 WeakReferenceMessenger.Default.Send(new UpdateDashboardMemoInfoMessage(new DashboardMemoInfo(Memos)));
@@ -98,63 +118,44 @@ namespace Cobble.ViewModels
             WeakReferenceMessenger.Default.Register<MemoFilePickedMessage>(this, async (r, m) =>
             {
                 string filePath = m.FilePath;
-                if (File.Exists(filePath))
+                try
                 {
-                    Dictionary<string, ObservableCollection<MemoInfo>> parsed = [];
-                    await Task.Run(async () =>
+                    string? content = await _memoFileStore.LoadAsync(filePath);
+                    if (content is null)
                     {
-                        string[] content = await File.ReadAllLinesAsync(filePath);
-                        string key = "其他";
-                        foreach (var line in content)
-                        {
-                            if (string.IsNullOrWhiteSpace(line)) continue;
-                            if (line.Length < 4) key = line;
-                            else if (line[0..4] != "    ") key = line;
-                            if (!parsed.ContainsKey(key))
-                                parsed[key] = [];
-                            if (key != line)
-                                parsed[key].Add(new MemoInfo(line[4..], key));
-                        }
-                    });
-                    Memos = parsed;
-                    Memos = new Dictionary<string, ObservableCollection<MemoInfo>>(Memos);
-                    WeakReferenceMessenger.Default.Send(new UpdateDashboardMemoInfoMessage(new DashboardMemoInfo(Memos)));
-                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"成功读取存档 条目数: {parsed.Count}", false));
+                        WeakReferenceMessenger.Default.Send(new ShowTipMessage($"文件 {filePath} 不存在", false));
+                        return;
+                    }
+                    Memos = _memoParser.Deserialize(content);
+                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"成功读取存档 科目数: {Memos.Count}", false));
                 }
-                else
+                catch (Exception ex)
                 {
-                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"文件 {filePath} 不存在", false));
+                    _logger.LogError(ex, "Failed to read memo");
+                    WeakReferenceMessenger.Default.Send(new ShowTipMessage("读取文件错误", true));
                 }
+
             });
             WeakReferenceMessenger.Default.Register<ExportMemoMessage>(this, async (r, m) =>
             {
                 string folderPath = m.FolderPath;
-                if (Directory.Exists(folderPath))
+                string filePath = Path.Combine(folderPath, $"{DateTime.Now:yyMMddHHmm}Memo.txt");
+                string content = _memoParser.Serialize(Memos);
+                try
                 {
-                    string filePath = Path.Combine(folderPath, $"{DateTime.Now:yyMMddHHmm}Memo.txt");
-                    string content = "";
-                    foreach (var pair in Memos)
+                    if (!await _memoFileStore.SaveAsync(filePath, content))
                     {
-                        content += $"{pair.Key}{Environment.NewLine}";
-                        foreach (var item in pair.Value)
-                        {
-                            content += $"    {item.Memo}{Environment.NewLine}";
-                        }
+                        WeakReferenceMessenger.Default.Send(new ShowTipMessage($"文件夹 {folderPath} 不存在", true));
+                        return;
                     }
-                    try
-                    {
-                        await File.WriteAllTextAsync(filePath, content);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to export memo");
-                    }
-                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"成功保存备忘录于 {filePath}", false));
                 }
-                else
+                catch (Exception ex)
                 {
-                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"文件夹 {folderPath} 不存在", true));
+                    _logger.LogError(ex, "Failed to export memo");
+                    WeakReferenceMessenger.Default.Send(new ShowTipMessage($"保存备忘录失败", true));
+                    return;
                 }
+                WeakReferenceMessenger.Default.Send(new ShowTipMessage($"成功保存备忘录于 {filePath}", false));
             });
         }
     }

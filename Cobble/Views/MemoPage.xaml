@@ -21,7 +21,7 @@
                     <GradientStop Offset="1" Color="{Binding DataContext.ThemeViewModel.BaseColor,ElementName=RootGrid}"></GradientStop>
                 </LinearGradientBrush>
             </Border.Background>
-            <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
+            <ScrollViewer Margin="0,16,0,0">
 
                 <StackPanel>
                     <Grid>

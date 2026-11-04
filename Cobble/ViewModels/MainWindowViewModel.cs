@@ -4,6 +4,9 @@ using Cobble.Abstractions;
 using CommunityToolkit.Mvvm.Messaging;
 using Cobble.Messages;
 using Microsoft.Extensions.Logging;
+using System.Windows.Forms;
+using System.Runtime.ConstrainedExecution;
+using Cobble.Models;
 
 namespace Cobble.ViewModels
 {
@@ -24,8 +27,24 @@ namespace Cobble.ViewModels
         {
             NavigationService.NavigateTo<MemoPageViewModel>();
         }
-        public MainWindowViewModel(ThemeViewModel themeViewModel, INavigationService navigationService, IWindowService windowService, ILogger<MainWindowViewModel> logger) : base(themeViewModel)
+        [RelayCommand]
+        private void ToLuckyDrawPage()
         {
+            NavigationService.NavigateTo<LuckyDrawPageViewModel>();
+        }
+        [RelayCommand]
+        private void ToSettingsPage()
+        {
+            NavigationService.NavigateTo<SettingsPageViewModel>();
+        }
+        [RelayCommand]
+        private void ToEasterEggPage()
+        {
+            NavigationService.NavigateTo<EasterEggPageViewModel>();
+        }
+        public MainWindowViewModel(ThemeViewModel themeViewModel, INavigationService navigationService, IWindowService windowService, ILogger<MainWindowViewModel> logger,ApplicationData applicationData) : base(themeViewModel)
+        {
+            if (!applicationData.IsDarkTheme) ThemeViewModel.ChangeTheme();
             NavigationService = navigationService;
             _logger = logger;
             _windowService = windowService;

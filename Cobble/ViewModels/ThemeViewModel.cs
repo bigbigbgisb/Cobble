@@ -36,6 +36,7 @@ namespace Cobble.ViewModels
                 return Colors.White;
             }
         }
+        private bool _isDarkTheme = true;
 
         [ObservableProperty]
         Brush _baseBrush;
@@ -52,7 +53,7 @@ namespace Cobble.ViewModels
         [ObservableProperty]
         Brush _mainForeground;
         [ObservableProperty]
-        Color _shadowColor = Colors.White;
+        Color _shadowColor;
         [ObservableProperty]
         Brush _warningForeground;
         [ObservableProperty]
@@ -67,9 +68,33 @@ namespace Cobble.ViewModels
             PopupBrush = ToBrush("#222A35");
             ThemeBrush = ToBrush("#4476D1");
             MainForeground = ToBrush("#FFFFFF");
-            ShadowColor = Colors.White;
+            ShadowColor = ToColor("#0E1116");
             WarningForeground = ToBrush("#C33F3F");
             TransparentBrush = Brushes.Transparent;
+        }
+        public void ChangeTheme()
+        {
+            if (!_isDarkTheme)
+            {
+                BaseBrush = ToBrush("#0E1116");
+                BaseColor = ToColor("#0E1116");
+                SurfaceBrush = ToBrush("#171C24");
+                SurfaceColor = ToColor("#171C24");
+                PopupBrush = ToBrush("#222A35");
+                ThemeBrush = ToBrush("#4476D1");
+                MainForeground = ToBrush("#FFFFFF");
+            }
+            else
+            {
+                BaseBrush = ToBrush("#E8E6E3");
+                BaseColor = ToColor("#E8E6E3");
+                SurfaceBrush = ToBrush("#F2F0ED");
+                SurfaceColor = ToColor("#F2F0ED");
+                PopupBrush = ToBrush("#FAF9F6");
+                ThemeBrush = ToBrush("#81A2DD");
+                MainForeground = ToBrush("#1A1A1A");
+            }
+            _isDarkTheme = !_isDarkTheme;
         }
     }
 }

@@ -26,7 +26,11 @@
         <WrapPanel Orientation="Vertical">
             <Border Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6" >
                 <StackPanel>
-                    <TextBlock Margin="12,12,12,0" FontSize="16" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CurrentTime,StringFormat='yyyy/MM/dd'}"></TextBlock>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="12,12,12,0">
+                        <TextBlock  FontSize="16" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CurrentTime,StringFormat='yyyy/MM/dd'}"></TextBlock>
+                        <TextBlock  FontSize="16" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CurrentTime.DayOfWeek,StringFormat=' {0}'}"></TextBlock>
+                    </StackPanel>
+                    
                     <TextBlock Margin="12" FontSize="32" FontWeight="Bold" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CurrentTime,StringFormat='T'}"></TextBlock>
                     <Border Margin="12,0,12,12" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding ThemeViewModel.ThemeBrush}"></Border>
                 </StackPanel>
@@ -71,12 +75,12 @@
 
             </Border>
 
-            <Border Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6" >
+            <!--<Border Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6" >
 
             </Border>
             <Border Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6" >
 
-            </Border>
+            </Border>-->
         </WrapPanel>
 
     </Grid>

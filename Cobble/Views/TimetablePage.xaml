@@ -87,6 +87,7 @@
                                             <StackPanel Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表设置"></TextBlock>
                                                 <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Settings"></TextBlock>
+                                                <TextBlock  Foreground="{Binding ThemeViewModel.WarningForeground}" FontSize="14" Text="警告 : 更改课表大小会导致课表内容重置"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                         
@@ -99,53 +100,13 @@
 
                                 <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
                                     <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表行数"></TextBlock>
-                                    <TextBox Text="{Binding RowCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                    <TextBox Text="{Binding RowCountInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
                                     <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表列数"></TextBlock>
-                                    <TextBox Text="{Binding ColumnCountInput,Mode=TwoWay}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
+                                    <TextBox Text="{Binding ColumnCountInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
                                 </StackPanel>
-                                
-                                
-                                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                                <!--以后可能会加的属性，为了UI占位-->
-                                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
-                                    <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="占位属性甲"></TextBlock>
-                                    <TextBox  Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
-                                </StackPanel>
-                                <!--END-->
-
-
 
                                 <ItemsControl ItemsSource="{Binding TipText}" >
                                     <ItemsControl.ItemTemplate>
