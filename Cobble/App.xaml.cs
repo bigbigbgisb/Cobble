@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Core;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -23,11 +22,12 @@ namespace Cobble
     {
         public static IServiceProvider? Services { get; private set; }
         public readonly string AppDataPath = Path.Combine(AppContext.BaseDirectory, "CobbleAppData", "AppData.json");
+        public readonly string AppCachePath = Path.Combine(AppContext.BaseDirectory, "CobbleAppCache", "AppCache.json");
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             var serviceCollection = new ServiceCollection();
-            Serilog.Log.Logger = new LoggerConfiguration().MinimumLevel
+            Log.Logger = new LoggerConfiguration().MinimumLevel
 #if DEBUG
                 .Debug()
 #else
@@ -37,7 +37,7 @@ namespace Cobble
                 .CreateLogger();
             serviceCollection.AddLogging(builder =>
             {
-                builder.AddSerilog(Serilog.Log.Logger, dispose: true);
+                builder.AddSerilog(Log.Logger, dispose: true);
 #if DEBUG
                 builder.SetMinimumLevel(LogLevel.Debug);
 #else
@@ -59,7 +59,9 @@ namespace Cobble
             serviceCollection.AddSingleton<MainWindow>();
             //Add app data to container.
             var store = new ApplicationDataStore();
+            var cacheStore = new ApplicationCacheStore();
             ApplicationData? appData;
+            ApplicationCache? appCache;
             try
             {
                 appData = await store.LoadAsync(AppDataPath);
@@ -67,16 +69,36 @@ namespace Cobble
             catch (Exception ex)
             {
                 appData = ApplicationData.Default;
-                Serilog.Log.Logger.Warning(ex, "读取数据失败");
+                Log.Logger.Warning(ex, "读取数据失败");
+                _ = Current.Dispatcher.BeginInvoke(() =>
+                {
+                    WeakReferenceMessenger.Default.Send(new ShowTipMessage("启动时读取数据失败,初始化为空数据", true));
+                }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            }
+            try
+            {
+                appCache = await cacheStore.LoadAsync(AppCachePath);
+            }
+            catch (Exception ex)
+            {
+                appCache = ApplicationCache.Default;
+                Log.Logger.Warning(ex, "读取数据失败");
                 _ = Current.Dispatcher.BeginInvoke(() =>
                 {
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("启动时读取数据失败,初始化为空数据", true));
                 }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }
             appData ??= ApplicationData.Default;
-            Serilog.Log.Logger.Information("软件版本 {Version}", Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown Version");
-            Serilog.Log.Logger.Information("存档版本 {AppDataVersion}", appData.Version);
-
+            appCache ??= ApplicationCache.Default;
+            Log.Logger.Information("软件版本 {Version}", Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown Version");
+            Log.Logger.Information("存档版本 {AppDataVersion}", appData.Version);
+            if (appCache.LastTime.Date < DateTime.Now.Date)
+            {
+                appData.MemoPageData.Memos = [];
+                appData.MemoPageData.CurrentMemo = "";
+                appData.MemoPageData.CurrentSubject = "";
+                Log.Logger.Information("时间跨日,已清除昨日备忘录");
+            }
             if (appData.Version?.Split('.')[0] != Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString().Split('.')[0])
             {
                 _ = Current.Dispatcher.BeginInvoke(() =>
@@ -84,12 +106,16 @@ namespace Cobble
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("数据主版本与软件当前版本不同,但未报错。请留意存档版本", true));
                 }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }
-            
-            serviceCollection.AddSingleton<ApplicationData>(sp =>
+
+            serviceCollection.AddSingleton(sp =>
             {
                 return appData;
             });
-            
+            serviceCollection.AddSingleton(sp =>
+            {
+                return appCache;
+            });
+
             //Set auto start
             var manager = new StartupManager();
             if (appData.IsAllowAutoStart)
@@ -100,18 +126,18 @@ namespace Cobble
                 }
                 catch (Exception ex)
                 {
-                    Serilog.Log.Logger.Warning(ex, "设置开机自启动失败");
+                    Log.Logger.Warning(ex, "设置开机自启动失败");
                 }
             }
             else
-            { 
+            {
                 try
                 {
                     manager.Remove("Cobble", WindowsAutostartApi.Abstractions.StartupScope.CurrentUser, StartupKind.Run);
                 }
                 catch (Exception ex)
                 {
-                    Serilog.Log.Logger.Warning(ex, "关闭开机自启动失败");
+                    Log.Logger.Warning(ex, "关闭开机自启动失败");
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("关闭开机自启动失败", true));
                 }
             }
@@ -129,23 +155,36 @@ namespace Cobble
         {
 
             var store = new ApplicationDataStore();
+            var cacheStore = new ApplicationCacheStore();
             var appData = Services?.GetRequiredService<ApplicationData>();
-            if (store is not null && appData is not null)
+            var appCache = Services?.GetRequiredService<ApplicationCache>();
+            if (appData is not null && appCache is not null)
             {
                 try
                 {
-                    if (!await store.SaveAsync(AppDataPath, appData))
+                    if (!Task.Run(()=> store.SaveAsync(AppDataPath, appData)).GetAwaiter().GetResult())
                     {
-                        Serilog.Log.Logger.Warning("写入路径的根目录的根目录 {Path} 不存在", AppDataPath);
+                        Log.Logger.Warning("写入路径的根目录的根目录 {Path} 不存在", AppDataPath);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Serilog.Log.Logger.Warning(ex, "写入数据失败");
+                    Log.Logger.Warning(ex, "写入数据失败");
                 }
-
-
+                try
+                {
+                    appCache.LastTime = DateTime.Now;
+                    if (!Task.Run(() => cacheStore.SaveAsync(AppCachePath, appCache)).GetAwaiter().GetResult())
+                    {
+                        Log.Logger.Warning("写入路径的根目录的根目录 {Path} 不存在", AppCachePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Warning(ex, "写入数据失败");
+                }
             }
+
             Log.CloseAndFlush();
             base.OnExit(e);
         }

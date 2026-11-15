@@ -80,8 +80,8 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image VerticalAlignment="Top" Source="pack://application:,,,/Cobble;component/Assets/CobbleIcon.png"></Image>
-                    <Button BorderThickness="0" Command="{Binding ToTimetablePageCommand}" HorizontalContentAlignment="Left"   Padding="12,4,18,4"  Margin="8,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="1" Background="{Binding ThemeViewModel.TransparentBrush}" Content="课表"></Button>
+                    <Image Margin="8,6,0,2"  VerticalAlignment="Center" Source="pack://application:,,,/Cobble;component/Assets/CobbleIcon.png"></Image>
+                    <Button BorderThickness="0" Command="{Binding ToTimetablePageCommand}" HorizontalContentAlignment="Left"   Padding="8,4,18,4"  Margin="8,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="1" Background="{Binding ThemeViewModel.TransparentBrush}" Content="课表"></Button>
                     <Button BorderThickness="0" Command="{Binding ToLuckyDrawPageCommand}"  HorizontalContentAlignment="Left"   Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="2" Background="{Binding ThemeViewModel.TransparentBrush}" Content="抽奖"></Button>
                     <Button BorderThickness="0" Command="{Binding ToMemoPageCommand}" HorizontalContentAlignment="Left"  Padding="12,4,28,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="3" Background="{Binding ThemeViewModel.TransparentBrush}" Content="备忘"></Button>
                     <Button BorderThickness="0" Command="{Binding ToSettingsPageCommand}" HorizontalContentAlignment="Left"  Padding="12,4,18,4" Margin="4,8,4,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="4" Background="{Binding ThemeViewModel.TransparentBrush}" Content="设置"></Button>
