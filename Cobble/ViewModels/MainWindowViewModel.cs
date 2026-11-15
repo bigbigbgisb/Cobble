@@ -51,6 +51,7 @@ namespace Cobble.ViewModels
             ToTimetablePage();
             WeakReferenceMessenger.Default.Register<ToggleDashboardPopupMessage>(this, (r, m) =>
             {
+                
                 if (!_isDashboardVisible)
                 {
                     _windowService.ShowWindow<DashboardPopupWindowViewModel>();
