@@ -51,7 +51,6 @@ namespace Cobble.ViewModels
             ToTimetablePage();
             WeakReferenceMessenger.Default.Register<ToggleDashboardPopupMessage>(this, (r, m) =>
             {
-                
                 if (!_isDashboardVisible)
                 {
                     _windowService.ShowWindow<DashboardPopupWindowViewModel>();
@@ -60,10 +59,23 @@ namespace Cobble.ViewModels
                 else
                     _windowService.CloseWindow<DashboardPopupWindowViewModel>();
             });
+            WeakReferenceMessenger.Default.Register<ShowDashboardPopupMessage>(this, (r, m) =>
+            {
+                if (!_isDashboardVisible)
+                {
+                    _windowService.ShowWindow<DashboardPopupWindowViewModel>();
+                    _isDashboardVisible = true;
+                }
+                  
+            });
+            WeakReferenceMessenger.Default.Register<HideDashboardPopupMessage>(this, (r, m) =>
+            {
+                if (_isDashboardVisible)
+                    _windowService.CloseWindow<DashboardPopupWindowViewModel>();
+            });
             WeakReferenceMessenger.Default.Register<DashboardPopupClosedMessage>(this, (r, m) =>
             {
                 _isDashboardVisible = false;
-                _logger.LogDebug("Enter Register DashboardPopupClosedMessage Code");
             });
         }
     }

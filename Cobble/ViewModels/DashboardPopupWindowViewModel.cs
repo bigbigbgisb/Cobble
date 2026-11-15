@@ -14,6 +14,10 @@ namespace Cobble.ViewModels
         [ObservableProperty]
         DashboardMemoInfo _dashboardMemoInfo = new([]);
         [ObservableProperty]
+        string? _currentLesson;
+        [ObservableProperty]
+        string? _nextLesson;
+        [ObservableProperty]
         DateTime _currentTime;
         private DispatcherTimer _timer;
         public DashboardPopupWindowViewModel(ThemeViewModel themeViewModel) : base(themeViewModel)
@@ -21,6 +25,11 @@ namespace Cobble.ViewModels
             WeakReferenceMessenger.Default.Register<UpdateDashboardMemoInfoMessage>(this, (r, m) =>
             {
                 DashboardMemoInfo = m.DashboardMemoInfo;
+            });
+            WeakReferenceMessenger.Default.Register<UpdateCurrentAndNextLessonMessage>(this, (r, m) =>
+            {
+                CurrentLesson = m.CurrentLesson;
+                NextLesson = m.NextLesson;
             });
             CurrentTime = DateTime.Now;
             _timer = new DispatcherTimer()

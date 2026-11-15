@@ -5,4 +5,5 @@ using System.Text;
 namespace Cobble.Messages
 {
     public record PullDashboardMemoInfoMessage;
+    public record PullDashboardCurrentAndNextLessonMessage;
 }

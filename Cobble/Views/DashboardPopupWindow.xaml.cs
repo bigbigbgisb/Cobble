@@ -35,6 +35,7 @@ namespace Cobble.Views
         private void DashboardPopupWindow_Loaded(object sender, RoutedEventArgs e)
         {
             WeakReferenceMessenger.Default.Send<PullDashboardMemoInfoMessage>();
+            WeakReferenceMessenger.Default.Send<PullDashboardCurrentAndNextLessonMessage>();
             var workArea = SystemParameters.WorkArea;
             this.Left = 0;
             this.Top = workArea.Top + (workArea.Height - this.ActualHeight) / 2;

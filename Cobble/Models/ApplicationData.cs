@@ -18,6 +18,7 @@ namespace Cobble.Models
         public required int ColumnCount { get; set; }
         public required int RowCount { get; set; }
         public required ObservableCollection<string> TipText { get; set; }
+        public required ObservableCollection<LessonTime> LessonTimes { get; set; }
     }
     public class ApplicationData
     {
@@ -41,6 +42,7 @@ namespace Cobble.Models
                 RowCount = 8,
                 DailyLessonInfos = [],
                 TipText = [],
+                LessonTimes = []
 
             },
             IsDarkTheme = true,
