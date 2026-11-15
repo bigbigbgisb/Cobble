@@ -90,7 +90,7 @@
                     <Button BorderThickness="0" Click="Minimize_Click" x:Name="Minimize" HorizontalContentAlignment="Left"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="6" Background="{Binding ThemeViewModel.TransparentBrush}" Content="–"></Button>
                     <Button BorderThickness="0" Click="Maximize_Click" x:Name="Maximize" HorizontalContentAlignment="Left"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="7" Background="{Binding ThemeViewModel.TransparentBrush}" Content="□"></Button>
                     <Button BorderThickness="0" Click="Close_Click" x:Name="Exit" HorizontalContentAlignment="Left" Margin="0,0,8,0"  Padding="18,4" Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="8" Background="{Binding ThemeViewModel.TransparentBrush}" Content="×"></Button>
-                    <Button BorderThickness="0" Command="{Binding ToEasterEggPageCommand}" Cursor="Hand" HorizontalContentAlignment="Left"   Padding="2,2"  Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="9" Background="{Binding ThemeViewModel.TransparentBrush}"></Button>
+                    <Button BorderThickness="0" Command="{Binding ToEasterEggPageCommand}" Cursor="Hand" HorizontalContentAlignment="Left"   Padding="3.000000000001,3.000000000001"  Foreground="{Binding ThemeViewModel.MainForeground}" Grid.Column="9" Background="{Binding ThemeViewModel.TransparentBrush}"></Button>
                 </Grid>
             </Border>
 

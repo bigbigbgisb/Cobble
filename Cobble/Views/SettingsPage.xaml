@@ -37,5 +37,6 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
+        <TextBlock FontSize="8" Margin="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="{Binding ThemeViewModel.MainForeground}" Opacity="0.4" Text="bigbigbgisb"></TextBlock>
     </Grid>
 </UserControl>
