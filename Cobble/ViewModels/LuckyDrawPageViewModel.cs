@@ -1,10 +1,6 @@
 ﻿using Cobble.Abstractions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Cobble.ViewModels
 {
     public partial class LuckyDrawPageViewModel(ThemeViewModel themeViewModel, IWindowService windowService) : PageViewModelBase(themeViewModel, windowService)
@@ -53,7 +49,6 @@ namespace Cobble.ViewModels
                 else randomNumber -= pair.Value;
             }
             CurrentItem = pairResult.Key;
-
         }
     }
 }

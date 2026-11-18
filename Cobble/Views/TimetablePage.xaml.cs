@@ -1,7 +1,5 @@
 ﻿
 using System.Windows.Controls;
-
-
 namespace Cobble.Views
 {
     /// <summary>
@@ -13,7 +11,6 @@ namespace Cobble.Views
         {
             InitializeComponent();
         }
-
 
     }
 }

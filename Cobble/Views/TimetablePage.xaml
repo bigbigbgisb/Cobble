@@ -1,26 +1,21 @@
 ﻿<UserControl x:Class="Cobble.Views.TimetablePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Cobble.Views"
-             xmlns:vm="clr-namespace:Cobble.ViewModels"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="clr-namespace:Cobble.Behaviors"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance Type=vm:TimetablePageViewModel}"
+             xmlns:vm="clr-namespace:Cobble.ViewModels"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             
-             >
-
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=vm:TimetablePageViewModel}">
     <Grid x:Name="RootGrid">
         <Border CornerRadius="6" Margin="24" Padding="12">
             <Border.Background >
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                     <GradientStop Offset="0" Color="{Binding DataContext.ThemeViewModel.SurfaceColor,ElementName=RootGrid}"></GradientStop>
                     <GradientStop Offset="1" Color="{Binding DataContext.ThemeViewModel.BaseColor,ElementName=RootGrid}"></GradientStop>
-
                 </LinearGradientBrush>
             </Border.Background>
             <Grid >
@@ -44,7 +39,6 @@
                                 <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="映射表"></TextBlock>
                                 <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Mapping table"></TextBlock>
                                 <TextBlock Margin="0,12,0,0"  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="14" Text="可选快捷输入 (在输入栏填入数字,紧接着按下分号,自动映射为课程名)"></TextBlock>
-
                             </StackPanel>
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding SubjectHints}">
                                 <ItemsControl.ItemsPanel>
@@ -58,14 +52,9 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-
                         </Grid>
-
                     
-
-
                 </Border>
-
                 <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
                     <StackPanel>
                         <Grid>
@@ -80,7 +69,6 @@
                                         <Border.Effect>
                                             <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
                                         </Border.Effect>
-
                                     </Border>
                                     <Border Margin="12,32,0,0" Padding="16,12,64,12" HorizontalAlignment="Left" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
                                         <StackPanel Orientation="Horizontal">
@@ -92,30 +80,23 @@
                                             </StackPanel>
                                         </StackPanel>
                                         
-
                                     </Border>
                                 </Grid>
                                 
-
-
-
                                 <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
                                     <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表行数"></TextBlock>
                                     <TextBox Text="{Binding RowCountInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
                                 </StackPanel>
-
                                 <StackPanel Orientation="Horizontal" Margin="12,24,0,0">
                                     <TextBlock VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Text="课程表列数"></TextBlock>
                                     <TextBox Text="{Binding ColumnCountInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="12,8" VerticalAlignment="Center" FontSize="16"  Foreground="{Binding ThemeViewModel.MainForeground}" Margin="12,0,0,0" Width="192" Background="{Binding ThemeViewModel.PopupBrush}"></TextBox>
                                 </StackPanel>
-
                                 <ItemsControl ItemsSource="{Binding TipText}" >
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Margin="12,12,0,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
-
                                 </ItemsControl>
                             </StackPanel>
                             <StackPanel Grid.Column="2">
@@ -124,7 +105,6 @@
                                         <Border.Effect>
                                             <DropShadowEffect Color="{Binding DataContext.ThemeViewModel.ShadowColor, ElementName=RootGrid}" BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.4"></DropShadowEffect>
                                         </Border.Effect>
-
                                     </Border>
                                     <Border Padding="16,12,64,12" Margin="12,32,12,0" HorizontalAlignment="Stretch" Background="{Binding ThemeViewModel.TransparentBrush}" CornerRadius="6">
                                         <Grid HorizontalAlignment="Stretch">
@@ -133,12 +113,10 @@
                                                 <StackPanel Margin="12,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                                     <TextBlock  Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="24" Text="课表预览与修改"></TextBlock>
                                                     <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="18" Text="Timetable Preview &amp; Modify"></TextBlock>
-
                                                 </StackPanel>
                                             </StackPanel>
                                             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch">
                                                 <Button  BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding ThemeViewModel.MainForeground}" Background="{Binding ThemeViewModel.PopupBrush}" Content="👁"  Command="{Binding TogglePopupWindowCommand}">
-
                                                 </Button>
                                                 <TextBlock Margin="0,6,0,0" Foreground="{Binding ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="显示/隐藏课表浮动"></TextBlock>
                                             </StackPanel>
@@ -146,7 +124,6 @@
                                         </Grid>
                                         
                                         
-
                                     </Border>
                                 </Grid>
                                 <TextBlock Margin="12,12,0,0" VerticalAlignment="Bottom" FontSize="14" Foreground="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Text="修改课程开始/结束时间"></TextBlock>
@@ -175,7 +152,6 @@
                                                         </ItemsPanelTemplate>
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
-
                                                         <DataTemplate>
                                                             <Border Opacity="0" BorderThickness="1" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Height="64" >
                                                                 <Border.Triggers>
@@ -183,14 +159,12 @@
                                                                         <BeginStoryboard>
                                                                             <Storyboard  >
                                                                                 <DoubleAnimation Duration="0:0:1" From="0" To="1" Storyboard.TargetProperty="Opacity">
-
                                                                                     <DoubleAnimation.EasingFunction>
                                                                                         <CubicEase EasingMode="EaseIn"></CubicEase>
                                                                                     </DoubleAnimation.EasingFunction>
                                                                                 </DoubleAnimation>
                                                                             </Storyboard>
                                                                         </BeginStoryboard>
-
                                                                     </EventTrigger>
                                                                 </Border.Triggers>
                                                                 <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.PopupBrush}"  Margin="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LessonName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
@@ -198,7 +172,6 @@
                                                                         <behaviors:SubjectMappingBehavior></behaviors:SubjectMappingBehavior>
                                                                     </i:Interaction.Behaviors>
                                                                 </TextBox>
-
                                                             </Border>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
@@ -208,16 +181,12 @@
                                     </ItemsControl>
                                 </Grid>
                                 
-
                             </StackPanel>
-
                         </Grid>
-
                         
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
-
         </Border>
     </Grid>
 </UserControl>

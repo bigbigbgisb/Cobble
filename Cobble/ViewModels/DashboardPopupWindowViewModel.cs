@@ -2,11 +2,7 @@
 using Cobble.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Threading;
-
 namespace Cobble.ViewModels
 {
     public partial class DashboardPopupWindowViewModel : ViewModelBase
@@ -41,7 +37,6 @@ namespace Cobble.ViewModels
                 CurrentTime = DateTime.Now;
             };
             _timer.Start();
-
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-
-
 namespace Cobble.Views
 {
     /// <summary>
@@ -15,9 +13,6 @@ namespace Cobble.Views
         {
             InitializeComponent();
         }
-
-
-
         private async void Rod_Click(object sender, RoutedEventArgs e)
         {
             if (_isPulling) return;

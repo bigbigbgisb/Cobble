@@ -1,9 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using System.Windows.Media;
-
-
-
 namespace Cobble.ViewModels
 {
     
@@ -37,7 +34,6 @@ namespace Cobble.ViewModels
             }
         }
         private bool _isDarkTheme = true;
-
         [ObservableProperty]
         Brush _baseBrush;
         [ObservableProperty]

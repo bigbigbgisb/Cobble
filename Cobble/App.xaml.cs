@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -106,7 +105,6 @@ namespace Cobble
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("数据主版本与软件当前版本不同,但未报错。请留意存档版本", true));
                 }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }
-
             serviceCollection.AddSingleton(sp =>
             {
                 return appData;
@@ -115,8 +113,7 @@ namespace Cobble
             {
                 return appCache;
             });
-
-            //Set auto start
+            //Set auto start.
             var manager = new StartupManager();
             if (appData.IsAllowAutoStart)
             {
@@ -141,11 +138,9 @@ namespace Cobble
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("关闭开机自启动失败", true));
                 }
             }
-
-            //Build.
+            //Start up.
             Services = serviceCollection.BuildServiceProvider();
             Services.GetRequiredService<MainWindow>().Show();
-
         }
         /// <summary>
         /// 
@@ -153,7 +148,6 @@ namespace Cobble
         /// <param name="e"></param>
         protected override async void OnExit(ExitEventArgs e)
         {
-
             var store = new ApplicationDataStore();
             var cacheStore = new ApplicationCacheStore();
             var appData = Services?.GetRequiredService<ApplicationData>();
@@ -184,10 +178,8 @@ namespace Cobble
                     Log.Logger.Warning(ex, "写入数据失败");
                 }
             }
-
             Log.CloseAndFlush();
             base.OnExit(e);
         }
     }
-
 }

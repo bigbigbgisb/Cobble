@@ -1,7 +1,6 @@
 ﻿using Cobble.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-
 namespace Cobble.Models
 {
     public partial class LessonInfo : ObservableObject

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Text;
-
 namespace Cobble.Models
 {
     public class MemoPageData
@@ -27,7 +23,6 @@ namespace Cobble.Models
         public required bool IsAllowAutoStart { get; set; }
         public required MemoPageData MemoPageData { get; set; }
         public required TimetablePageData TimetablePageData { get; set; }
-
         public static ApplicationData Default { get; } = new()
         {
             MemoPageData = new()
@@ -43,12 +38,10 @@ namespace Cobble.Models
                 DailyLessonInfos = [],
                 TipText = [],
                 LessonTimes = []
-
             },
             IsDarkTheme = true,
             Version = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown Version",
             IsAllowAutoStart = true,
         };
-        
     }
 }

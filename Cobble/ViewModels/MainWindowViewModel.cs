@@ -1,13 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Cobble.Abstractions;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using Cobble.Abstractions;
 using Cobble.Messages;
-using Microsoft.Extensions.Logging;
-using System.Windows.Forms;
-using System.Runtime.ConstrainedExecution;
 using Cobble.Models;
-
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 namespace Cobble.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase

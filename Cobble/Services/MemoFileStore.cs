@@ -1,9 +1,5 @@
 ﻿using Cobble.Abstractions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-
 namespace Cobble.Services
 {
     public class MemoFileStore : IFileStore<string>
@@ -16,9 +12,7 @@ namespace Cobble.Services
                 return content;
             }
             return null;
-
         }
-
         public async Task<bool> SaveAsync(string path, string content)
         {
             if (Directory.Exists(Path.GetDirectoryName(path)))

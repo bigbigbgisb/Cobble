@@ -6,15 +6,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Serilog.Core;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows.Media;
 using WindowsAutostartApi.Abstractions;
 using WindowsAutostartApi.Core;
-
 namespace Cobble.ViewModels
 {
     public partial class EasterEggPageViewModel : PageViewModelBase
@@ -45,8 +40,6 @@ namespace Cobble.ViewModels
                 WeakReferenceMessenger.Default.Send(new ShowTipMessage("设置开机自启动失败", true));
             }
             _data.IsAllowAutoStart = true;
-
-
         }
         [RelayCommand]
         private void DisableAutoStart()
@@ -63,7 +56,6 @@ namespace Cobble.ViewModels
             }
             _data.IsAllowAutoStart = false;
         }
-
         [RelayCommand]
         private void PlaySong()
         {

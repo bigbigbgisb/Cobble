@@ -1,11 +1,6 @@
 ﻿using Cobble.Abstractions;
 using Cobble.Models;
-using Cobble.Services;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Cobble.ViewModels
 {
     public partial class SettingsPageViewModel : PageViewModelBase

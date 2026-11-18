@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using System.Windows;
-
 namespace Cobble.Views
 {
     /// <summary>
@@ -14,7 +13,6 @@ namespace Cobble.Views
         {
             InitializeComponent();
         }
-
         private void ExportMemo_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFolderDialog();
@@ -25,7 +23,6 @@ namespace Cobble.Views
             }
             
         }
-
         private void LoadMemo_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog() { Filter = "文本文档(.txt)|*.txt" };

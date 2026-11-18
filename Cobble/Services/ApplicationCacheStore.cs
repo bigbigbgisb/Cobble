@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-
 namespace Cobble.Services
 {
     public class ApplicationCacheStore : IFileStore<ApplicationCache>
@@ -23,7 +22,6 @@ namespace Cobble.Services
             if (applicationCache is null) return null;
             return applicationCache;
         }
-
         public async Task<bool> SaveAsync(string path, ApplicationCache content)
         {
             if (!Path.Exists(Path.GetDirectoryName(Path.GetDirectoryName(path)))) return false;

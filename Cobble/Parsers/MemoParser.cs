@@ -1,9 +1,5 @@
 ﻿using Cobble.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-
 namespace Cobble.Parsers
 {
     public class MemoParser
@@ -25,7 +21,6 @@ namespace Cobble.Parsers
         {
             Dictionary<string, ObservableCollection<MemoInfo>> parsed = [];
             string[] sourceLines = source.Split(Environment.NewLine);
-
             string key = "其他";
             foreach (var line in sourceLines)
             {
@@ -37,7 +32,6 @@ namespace Cobble.Parsers
                 if (key != line)
                     parsed[key].Add(new MemoInfo(line[4..], key));
             }
-
             return parsed;
         }
     }

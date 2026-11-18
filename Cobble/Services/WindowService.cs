@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
-
 namespace Cobble.Services
 {
     public class WindowService(ILogger<WindowService> logger) : IWindowService
@@ -57,7 +56,6 @@ namespace Cobble.Services
             {
                 _logger.LogWarning("Cannot close an already closed window {ViewModel} (viewmodel) ", typeof(T).FullName);
             }
-
         }
     }
 }

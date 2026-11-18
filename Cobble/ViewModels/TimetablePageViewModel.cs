@@ -1,21 +1,16 @@
 ﻿using Cobble.Abstractions;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
-using Cobble.Models;
-using CommunityToolkit.Mvvm.Input;
-using System.Windows;
-using CommunityToolkit.Mvvm.Messaging;
 using Cobble.Messages;
+using Cobble.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.Windows.Threading;
-
 namespace Cobble.ViewModels
 {
-
     public partial class TimetablePageViewModel : PageViewModelBase
     {
-
         private static readonly Dictionary<int, string> _subjectMapping = new()
         {
             { 1, "语文" },
@@ -52,7 +47,6 @@ namespace Cobble.ViewModels
         ObservableCollection<LessonTime> _lessonTimes = [];
         [ObservableProperty]
         ObservableCollection<string> _tipText = [];
-
         [ObservableProperty]
         string _columnCountInput = "5";
         [ObservableProperty]
@@ -73,7 +67,6 @@ namespace Cobble.ViewModels
         partial void OnLessonTimesChanging(ObservableCollection<LessonTime> value)
         {
             _applicationData.TimetablePageData.LessonTimes = value;
-
         }
         private void UpdateCurrentAndNextLesson()
         {
@@ -147,7 +140,6 @@ namespace Cobble.ViewModels
                 return new DailyLessonInfos([.. Enumerable.Range(0, LessonTimes.Count).Select(_ => new LessonInfo())]);
             }
         }
-
         private async Task GenerateMap()
         {
             try
@@ -159,7 +151,6 @@ namespace Cobble.ViewModels
                         .Select(_ => new DailyLessonInfos([.. Enumerable.Range(0, _columnCount).Select(_ => new LessonInfo())]))
                     ];
                 });
-
                 WeeklyLessonInfos = new(map);
                 _popupViewModel.CurrentLessons = GetCurrentLessonInfos();
             }
@@ -167,8 +158,6 @@ namespace Cobble.ViewModels
             {
                 _logger.LogError(ex, "Fire-and-forgot GenerateMap failed");
             }
-
-
         }
         private bool CheckDataInput(int max, int min, string message, string input, out int value)
         {
@@ -177,24 +166,18 @@ namespace Cobble.ViewModels
             {
                 TipText.Remove(message);
                 value = count;
-
                 return true;
             }
             else
             {
                 if (!TipText.Contains(message))
                     TipText.Add(message);
-
                 return false;
             }
-
-
-
         }
         [RelayCommand]
         private void TogglePopupWindow()
         {
-
             if (!_isPopupWindowVisible)
             {
                 _popupViewModel.CurrentLessons = GetCurrentLessonInfos();
@@ -207,7 +190,6 @@ namespace Cobble.ViewModels
                 _isPopupWindowVisible = false;
             }
         }
-
         partial void OnColumnCountInputChanged(string value)
         {
             if (CheckDataInput(8, 1, $"列数据必须在 1 到 8 之间", value, out var count))
@@ -225,7 +207,6 @@ namespace Cobble.ViewModels
                 _applicationData.TimetablePageData.RowCount = count;
                 _ = GenerateMap();
             }
-
         }
         public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel, ILogger<TimetablePageViewModel> logger, ApplicationData applicationData) : base(themeViewModel, windowService)
         {
@@ -262,7 +243,6 @@ namespace Cobble.ViewModels
                 if (shouldHide) WeakReferenceMessenger.Default.Send<HideDashboardPopupMessage>();
                 else WeakReferenceMessenger.Default.Send<ShowDashboardPopupMessage>();
                 UpdateCurrentAndNextLesson();
-
             };
             _timer.Start();
             if (WeeklyLessonInfos.Count == 0)
@@ -282,7 +262,5 @@ namespace Cobble.ViewModels
                 UpdateCurrentAndNextLesson();
             });
         }
-
-
     }
 }

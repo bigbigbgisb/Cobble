@@ -1,8 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Cobble.Abstractions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
-using Cobble.Abstractions;
 using Microsoft.Extensions.Logging;
-
 namespace Cobble.Services
 {
     public partial class NavigationService(ILogger<NavigationService> logger) : ObservableObject, INavigationService
@@ -12,7 +11,6 @@ namespace Cobble.Services
         readonly ILogger<NavigationService> _logger = logger;
         public void NavigateTo<T>() where T : ViewModelBase
         {
-
             try
             {
                 var vm = App.Services?.GetRequiredService<T>();
@@ -28,9 +26,6 @@ namespace Cobble.Services
             {
                 _logger.LogError("Cannot find viewmodel {ViewModel}", typeof(T).FullName);
             }
-
-
         }
-
     }
 }

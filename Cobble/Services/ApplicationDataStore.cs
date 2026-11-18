@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using Cobble.Abstractions;
+﻿using Cobble.Abstractions;
 using Cobble.Models;
+using System.IO;
+using System.Text.Json;
 namespace Cobble.Services
 {
     public class ApplicationDataStore : IFileStore<ApplicationData>
@@ -22,7 +18,6 @@ namespace Cobble.Services
             if (applicationData is null) return null;
             return applicationData;
         }
-
         public async Task<bool> SaveAsync(string path, ApplicationData content)
         {
             if (!Path.Exists(Path.GetDirectoryName(Path.GetDirectoryName(path)))) return false;
@@ -32,6 +27,4 @@ namespace Cobble.Services
             return true;
         }
     }
-
-
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xaml.Behaviors;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
-
 namespace Cobble.Behaviors
 {
     public class SubjectMappingBehavior : Behavior<TextBox>

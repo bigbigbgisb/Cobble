@@ -1,6 +1,5 @@
 ﻿using Cobble.Abstractions;
 using System.IO;
-
 namespace Cobble.Services
 {
     public class CodeFileStore : IFileStore<string>
@@ -17,7 +16,6 @@ namespace Cobble.Services
             }
             return code;
         }
-
         public Task<bool> SaveAsync(string path, string content)
         {
             throw new NotSupportedException("Save you **,what are you doin'");

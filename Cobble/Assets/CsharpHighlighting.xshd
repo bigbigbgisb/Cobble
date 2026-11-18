@@ -36,7 +36,6 @@
     <Color name="TrueFalse" foreground="#569CD6" />
     <Color name="TypeKeywords" foreground="#569CD6" />
     <Color name="SemanticKeywords" foreground="#569CD6" />
-
     <Property name="DocCommentMarker" value="///" />
     
     <RuleSet name="CommentMarkerSet">
@@ -226,11 +225,9 @@
         <Keywords color="NullOrValueKeywords">
             <Word>null</Word> <Word>value</Word>
         </Keywords>
-
         <Keywords color="SemanticKeywords">
             <Word>nameof</Word>
         </Keywords>
-
         <!-- ================= 匹配规则 ================= -->
         
         <!-- 方法调用 -->

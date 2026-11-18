@@ -1,18 +1,14 @@
 ﻿using Cobble.Abstractions;
+using Cobble.Messages;
+using Cobble.Models;
+using Cobble.Parsers;
+using Cobble.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Cobble.Messages;
-using System.Collections.ObjectModel;
-using Cobble.Models;
-using System.IO;
-using System.Windows.Controls;
-using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Cobble.Parsers;
-using Cobble.Services;
-
-
+using System.Collections.ObjectModel;
+using System.IO;
 namespace Cobble.ViewModels
 {
     public partial class MemoPageViewModel : PageViewModelBase
@@ -63,7 +59,6 @@ namespace Cobble.ViewModels
                 WeakReferenceMessenger.Default.Send(new UpdateDashboardMemoInfoMessage(new DashboardMemoInfo(Memos)));
             }
             CurrentMemo = string.Empty;
-
         }
         [RelayCommand]
         private void DeleteMemo((string Memo, string Key) infos)
@@ -134,7 +129,6 @@ namespace Cobble.ViewModels
                     _logger.LogError(ex, "Failed to read memo");
                     WeakReferenceMessenger.Default.Send(new ShowTipMessage("读取文件错误", true));
                 }
-
             });
             WeakReferenceMessenger.Default.Register<ExportMemoMessage>(this, async (r, m) =>
             {

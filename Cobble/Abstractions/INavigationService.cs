@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-
 namespace Cobble.Abstractions
 {
     public interface INavigationService : INotifyPropertyChanged
