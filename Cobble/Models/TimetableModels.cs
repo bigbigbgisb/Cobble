@@ -6,16 +6,22 @@ namespace Cobble.Models
     public partial class LessonInfo : ObservableObject
     {
         [ObservableProperty]
-        string _lessonName = "";
+        public partial string LessonName { get; set; } = "";
+
         partial void OnLessonNameChanged(string value)
         {
             WeakReferenceMessenger.Default.Send<LessonInnerDataChanged>();
         }
     }
-    public partial class DailyLessonInfos(LessonInfo[] lessonInfos) : ObservableObject
+    public partial class DailyLessonInfos : ObservableObject
     {
         [ObservableProperty]
-        LessonInfo[] _lessonInfos = lessonInfos;
+        public partial LessonInfo[] LessonInfos { get; set; }
+
+        public DailyLessonInfos(LessonInfo[] lessonInfos)
+        {
+            LessonInfos = lessonInfos;
+        }
     }
     public partial class LessonTime : ObservableObject
     {

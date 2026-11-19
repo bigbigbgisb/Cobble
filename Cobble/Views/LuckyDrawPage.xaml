@@ -61,5 +61,6 @@
                 </Grid>
             </ScrollViewer>
         </Border>
+        <TextBlock Opacity="0.8" Text="所有指定同学的活动必须经过本人同意" Margin="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="{Binding ThemeViewModel.MainForeground}"></TextBlock>
     </Grid>
 </UserControl>

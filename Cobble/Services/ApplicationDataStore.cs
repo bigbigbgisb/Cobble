@@ -14,7 +14,7 @@ namespace Cobble.Services
         {
             if (!File.Exists(path)) return null;
             string content = await File.ReadAllTextAsync(path);
-            ApplicationData? applicationData = JsonSerializer.Deserialize<ApplicationData>(content, _jsonSerializerOptions);
+            ApplicationData? applicationData = JsonSerializer.Deserialize<ApplicationData>(content);
             if (applicationData is null) return null;
             return applicationData;
         }

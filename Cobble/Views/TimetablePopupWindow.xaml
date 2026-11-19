@@ -6,6 +6,7 @@
         xmlns:models="clr-namespace:Cobble.Models"
         xmlns:vm="clr-namespace:Cobble.ViewModels"
         mc:Ignorable="d"
+        ShowActivated="False"
         Title="TimetablePopupWindow"     
         d:DataContext="{d:DesignInstance Type=vm:TimetablePopupWindowViewModel}"
         WindowStyle="None"
@@ -16,17 +17,21 @@
         ShowInTaskbar="False"
         Topmost="True"
         MouseDoubleClick="Window_MouseDoubleClick"
+        BorderThickness="0"
         >
     <Grid>
         <StackPanel>
             
             <Grid x:Name="LessonContent" Margin="12">
-                <Border CornerRadius="4" BorderThickness="1" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}"></Border>
+                <Border  CornerRadius="4" BorderThickness="0" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}"></Border>
                 <ItemsControl Padding="0,64,0,64"  ItemsSource="{Binding CurrentLessons.LessonInfos}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="models:LessonInfo">
-                            <Border HorizontalAlignment="Stretch" Margin="12,0,12,0" VerticalAlignment="Center" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" BorderThickness="0,1,0,0">
-                                <TextBlock   Margin="0,18,0,18" FontSize="24" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LessonName}"></TextBlock>
+                            <Border HorizontalAlignment="Stretch" Margin="12,0" VerticalAlignment="Center" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.ThemeBrush}" Background="Transparent" BorderThickness="0,2,0,0">
+                                <Border CornerRadius="6" Margin="8"  Background="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.PopupBrush}">
+                                    <TextBlock  Margin="0,12,0,12" FontSize="24" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.MainForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LessonName}"></TextBlock>
+                                </Border>
+                                
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

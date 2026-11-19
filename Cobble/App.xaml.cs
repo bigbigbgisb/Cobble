@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -25,6 +26,11 @@ namespace Cobble
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
+            {
+                MessageBox.Show("请在托盘打开 Cobble", "提示");
+                Current.Shutdown();
+            }
             var serviceCollection = new ServiceCollection();
             Log.Logger = new LoggerConfiguration().MinimumLevel
 #if DEBUG
@@ -156,7 +162,7 @@ namespace Cobble
             {
                 try
                 {
-                    if (!Task.Run(()=> store.SaveAsync(AppDataPath, appData)).GetAwaiter().GetResult())
+                    if (!Task.Run(() => store.SaveAsync(AppDataPath, appData)).GetAwaiter().GetResult())
                     {
                         Log.Logger.Warning("写入路径的根目录的根目录 {Path} 不存在", AppDataPath);
                     }

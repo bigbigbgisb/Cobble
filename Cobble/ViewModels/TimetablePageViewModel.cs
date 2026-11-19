@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Threading;
 namespace Cobble.ViewModels
 {
@@ -34,6 +35,7 @@ namespace Cobble.ViewModels
             { 19, "校本" }
         };
         private ApplicationData _applicationData;
+        private bool _isPausedTimer;
         readonly ILogger<TimetablePageViewModel> _logger;
         private readonly TimetablePopupWindowViewModel _popupViewModel;
         private bool _isPopupWindowVisible = false;
@@ -194,6 +196,7 @@ namespace Cobble.ViewModels
         {
             if (CheckDataInput(8, 1, $"列数据必须在 1 到 8 之间", value, out var count))
             {
+                if (_columnCount == count) return;
                 _columnCount = count;
                 _applicationData.TimetablePageData.ColumnCount = count;
                 _ = GenerateMap();
@@ -203,6 +206,7 @@ namespace Cobble.ViewModels
         {
             if (CheckDataInput(18, 1, $"行数据必须在 1 到 18 之间", value, out var count))
             {
+                if (_rowCount == count) return;
                 _rowCount = count;
                 _applicationData.TimetablePageData.RowCount = count;
                 _ = GenerateMap();
@@ -211,10 +215,10 @@ namespace Cobble.ViewModels
         public TimetablePageViewModel(ThemeViewModel themeViewModel, IWindowService windowService, TimetablePopupWindowViewModel timetablePopupWindowViewModel, ILogger<TimetablePageViewModel> logger, ApplicationData applicationData) : base(themeViewModel, windowService)
         {
             _applicationData = applicationData;
-            ColumnCountInput = _applicationData.TimetablePageData.ColumnCount.ToString();
-            RowCountInput = _applicationData.TimetablePageData.RowCount.ToString();
             _columnCount = _applicationData.TimetablePageData.ColumnCount;
             _rowCount = _applicationData.TimetablePageData.RowCount;
+            ColumnCountInput = _applicationData.TimetablePageData.ColumnCount.ToString();
+            RowCountInput = _applicationData.TimetablePageData.RowCount.ToString();
             WeeklyLessonInfos = _applicationData.TimetablePageData.DailyLessonInfos;
             TipText = _applicationData.TimetablePageData.TipText;
             LessonTimes = _applicationData.TimetablePageData.LessonTimes;
@@ -227,9 +231,10 @@ namespace Cobble.ViewModels
             _timer.Tick += (s, e) =>
             {
                 DateTime now = LessonTimes[0].StartTime.Date + DateTime.Now.TimeOfDay;
-                if (now > LessonTimes[^1].EndTime) 
-                { 
+                if (now > LessonTimes[^1].EndTime)
+                {
                     WeakReferenceMessenger.Default.Send<ShowDashboardPopupMessage>();
+                    WeakReferenceMessenger.Default.Send<ShowTimetablePopupMessage>();
                     return;
                 }
                 bool shouldHide = true;
@@ -240,8 +245,16 @@ namespace Cobble.ViewModels
                     else if (now >= lessonTime.EndTime.AddMinutes(3) && LessonTimes[i + 1].StartTime.AddMinutes(-3) >= now) { shouldHide = false; break; }
                     else { shouldHide = true; }
                 }
-                if (shouldHide) WeakReferenceMessenger.Default.Send<HideDashboardPopupMessage>();
-                else WeakReferenceMessenger.Default.Send<ShowDashboardPopupMessage>();
+                if (shouldHide)
+                {
+                    WeakReferenceMessenger.Default.Send<HideTimetablePopupMessage>();
+                    WeakReferenceMessenger.Default.Send<HideDashboardPopupMessage>();
+                }
+                else 
+                {
+                    WeakReferenceMessenger.Default.Send<ShowTimetablePopupMessage>();
+                    WeakReferenceMessenger.Default.Send<ShowDashboardPopupMessage>();     
+                }
                 UpdateCurrentAndNextLesson();
             };
             _timer.Start();
@@ -253,13 +266,35 @@ namespace Cobble.ViewModels
             {
                 _isPopupWindowVisible = false;
             });
-            WeakReferenceMessenger.Default.Register<LessonInnerDataChanged>(this, (r, m) =>
+            WeakReferenceMessenger.Default.Register<LessonInnerDataChanged>(this, (r, m) => UpdateCurrentAndNextLesson());
+            WeakReferenceMessenger.Default.Register<PullDashboardCurrentAndNextLessonMessage>(this, (r, m) => UpdateCurrentAndNextLesson());
+            WeakReferenceMessenger.Default.Register<StopAutoShowTimerMessage>(this, (r, m) => _timer.Stop());
+            WeakReferenceMessenger.Default.Register<StartAutoShowTimerMessage>(this, (r, m) => _timer.Start());
+            WeakReferenceMessenger.Default.Register<PauseAutoShowTimerMessage>(this, async (r, m) =>
             {
-                UpdateCurrentAndNextLesson();
+                if (_isPausedTimer) return;
+                _timer.Stop();
+                _isPausedTimer = true;
+                await Task.Delay((int)_applicationData.GlobalSettingsData.TempStopDashboardDuration.TotalMilliseconds);
+                _isPausedTimer = false;
+                _timer.Start();
             });
-            WeakReferenceMessenger.Default.Register<PullDashboardCurrentAndNextLessonMessage>(this, (r, m) =>
+            WeakReferenceMessenger.Default.Register<HideTimetablePopupMessage>(this, (r, m) =>
             {
-                UpdateCurrentAndNextLesson();
+                if (_isPopupWindowVisible)
+                {
+                    _windowService.CloseWindow<TimetablePopupWindowViewModel>();
+                    _isPopupWindowVisible = false;
+                }
+            });
+            WeakReferenceMessenger.Default.Register<ShowTimetablePopupMessage>(this, (r, m) =>
+            {
+                if (!_isPopupWindowVisible)
+                {
+                    _popupViewModel.CurrentLessons = GetCurrentLessonInfos();
+                    _windowService.ShowWindow<TimetablePopupWindowViewModel>();
+                    _isPopupWindowVisible = true;
+                }
             });
         }
     }

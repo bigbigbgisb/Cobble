@@ -18,6 +18,7 @@ namespace Cobble.Views
         }
         private void DashboardPopupWindow_Closed(object? sender, EventArgs e)
         {
+            WeakReferenceMessenger.Default.Send<PauseAutoShowTimerMessage>();
             WeakReferenceMessenger.Default.Send<DashboardPopupClosedMessage>();
         }
         private void DashboardPopupWindow_Loaded(object sender, RoutedEventArgs e)

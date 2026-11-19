@@ -16,13 +16,20 @@ namespace Cobble.Models
         public required ObservableCollection<string> TipText { get; set; }
         public required ObservableCollection<LessonTime> LessonTimes { get; set; }
     }
+    public class GlobalSettingsData
+    {
+        public required bool IsAutoShowDashboard { get; set; }
+        public required TimeSpan TempStopDashboardDuration { get; set; }
+        public required bool IsDarkTheme { get; set; }
+
+    }
     public class ApplicationData
     {
-        public required bool IsDarkTheme { get; set; }
         public required string Version { get; set; }
         public required bool IsAllowAutoStart { get; set; }
         public required MemoPageData MemoPageData { get; set; }
         public required TimetablePageData TimetablePageData { get; set; }
+        public required GlobalSettingsData GlobalSettingsData { get; set; }
         public static ApplicationData Default { get; } = new()
         {
             MemoPageData = new()
@@ -39,7 +46,7 @@ namespace Cobble.Models
                 TipText = [],
                 LessonTimes = []
             },
-            IsDarkTheme = true,
+            GlobalSettingsData = new() { IsAutoShowDashboard = true,IsDarkTheme = true,TempStopDashboardDuration = TimeSpan.FromMinutes(3)},
             Version = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown Version",
             IsAllowAutoStart = true,
         };

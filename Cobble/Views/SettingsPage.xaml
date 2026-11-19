@@ -14,7 +14,7 @@
                     <GradientStop Offset="1" Color="{Binding DataContext.ThemeViewModel.BaseColor,ElementName=RootGrid}"></GradientStop>
                 </LinearGradientBrush>
             </Border.Background>
-            <ScrollViewer Margin="12,16,12,12">
+            <ScrollViewer Margin="12,24,12,12">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Border VerticalAlignment="Stretch" Width="2" Background="{Binding ThemeViewModel.ThemeBrush}"></Border>
@@ -25,14 +25,38 @@
                         </TextBlock>
                         
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="切换主题" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="18"></TextBlock>
+                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                        <TextBlock Text="切换主题" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
                         <Button Command="{Binding ChangeThemeCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
                             <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="=/=" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
                             </TextBlock>
                         </Button>
                     </StackPanel>
-                    
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="开启自动显示中控" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
+                        <Button Command="{Binding StartAutoShowTimerCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
+                            <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="📕" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="关闭自动显示中控" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
+                        <Button Command="{Binding StopAutoShowTimerCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
+                            <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="📕" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="临时关闭中控时间(分)" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
+                        <TextBox MinWidth="96" Text="{Binding DurationInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" Foreground="{Binding ThemeViewModel.MainForeground}" BorderThickness="0"></TextBox>
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding TipText}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock  Margin="12,12,0,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
         </Border>

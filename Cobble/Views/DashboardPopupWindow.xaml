@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:Cobble.ViewModels"
         mc:Ignorable="d"
         Title="DashboardPopupWindow"
+        ShowActivated="False"
         SizeToContent="WidthAndHeight"
         d:DataContext="{d:DesignInstance Type=vm:DashboardPopupWindowViewModel}"
         MouseDoubleClick="Window_MouseDoubleClick"
@@ -18,7 +19,7 @@
         ShowInTaskbar="False"
         >
     <Grid Margin="12">
-        <Border CornerRadius="6" BorderThickness="1" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}">
+        <Border CornerRadius="6" BorderThickness="0" BorderBrush="{Binding ThemeViewModel.MainForeground}" Opacity="0.8" Background="{Binding ThemeViewModel.BaseBrush}">
         </Border>
         <WrapPanel Orientation="Vertical">
             <Border Margin="12" Background="{Binding ThemeViewModel.PopupBrush}" CornerRadius="6" >

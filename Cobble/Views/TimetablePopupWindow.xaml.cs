@@ -16,6 +16,7 @@ namespace Cobble.Views
             SizeChanged += TimetablePopupWindow_SizeChanged;
             Closed += (s, e) =>
             {
+                WeakReferenceMessenger.Default.Send<PauseAutoShowTimerMessage>();
                 WeakReferenceMessenger.Default.Send<TimetablePopupClosedMessage>();
             };
         }
