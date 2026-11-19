@@ -21,6 +21,7 @@ namespace Cobble.Models
         public required bool IsAutoShowDashboard { get; set; }
         public required TimeSpan TempStopDashboardDuration { get; set; }
         public required bool IsDarkTheme { get; set; }
+        public required CobbleTheme CobbleTheme { get; set; }
 
     }
     public class ApplicationData
@@ -46,7 +47,7 @@ namespace Cobble.Models
                 TipText = [],
                 LessonTimes = []
             },
-            GlobalSettingsData = new() { IsAutoShowDashboard = true,IsDarkTheme = true,TempStopDashboardDuration = TimeSpan.FromMinutes(3)},
+            GlobalSettingsData = new() { IsAutoShowDashboard = true,IsDarkTheme = true,TempStopDashboardDuration = TimeSpan.FromMinutes(3),CobbleTheme = CobbleTheme.Dark},
             Version = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown Version",
             IsAllowAutoStart = true,
         };

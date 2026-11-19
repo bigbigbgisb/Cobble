@@ -1,4 +1,4 @@
 ﻿namespace Cobble.Messages
 {
-    public record UpdateCurrentAndNextLessonMessage(string CurrentLesson, string NextLesson);
+    public record UpdateCurrentAndNextLessonMessage(string CurrentLesson, string NextLesson, DateTime NextLessonTime);
 }

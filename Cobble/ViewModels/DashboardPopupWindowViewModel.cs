@@ -14,6 +14,8 @@ namespace Cobble.ViewModels
         [ObservableProperty]
         string? _nextLesson;
         [ObservableProperty]
+        string? _nextLessonTime;
+        [ObservableProperty]
         DateTime _currentTime;
         private DispatcherTimer _timer;
         public DashboardPopupWindowViewModel(ThemeViewModel themeViewModel) : base(themeViewModel)
@@ -26,6 +28,8 @@ namespace Cobble.ViewModels
             {
                 CurrentLesson = m.CurrentLesson;
                 NextLesson = m.NextLesson;
+                if (m.NextLessonTime != DateTime.MinValue) NextLessonTime = m.NextLessonTime.ToShortTimeString();
+                else NextLessonTime = "不上啦";
             });
             CurrentTime = DateTime.Now;
             _timer = new DispatcherTimer()

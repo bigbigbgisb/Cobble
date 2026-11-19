@@ -36,8 +36,10 @@
                     </StackPanel>
                     <Border Padding="64" Grid.Row="1" CornerRadius="12" Margin="16" Background="{Binding ThemeViewModel.PopupBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid>
-                            <Border CornerRadius="12" Padding="32" Background="{Binding ThemeViewModel.ThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock FontSize="32" FontWeight="Bold" Foreground="{Binding ThemeViewModel.MainForeground}" Text="{Binding CurrentItem}"></TextBlock>
+                            <Border CornerRadius="12" Background="{Binding ThemeViewModel.ThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ScrollViewer Margin="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible">
+                                    <TextBlock Margin="16" FontSize="32" FontWeight="Bold" Foreground="{Binding ThemeViewModel.MainForeground}" Text="{Binding CurrentItem}"></TextBlock>
+                                </ScrollViewer>
                             </Border>
                         </Grid>
                     </Border>

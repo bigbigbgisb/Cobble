@@ -41,7 +41,7 @@ namespace Cobble.ViewModels
         }
         public MainWindowViewModel(ThemeViewModel themeViewModel, INavigationService navigationService, IWindowService windowService, ILogger<MainWindowViewModel> logger,ApplicationData applicationData) : base(themeViewModel)
         {
-            if (!applicationData.GlobalSettingsData.IsDarkTheme) ThemeViewModel.ChangeTheme();
+            ThemeViewModel.ChangeTheme(applicationData.GlobalSettingsData.CobbleTheme);
             NavigationService = navigationService;
             _logger = logger;
             _windowService = windowService;

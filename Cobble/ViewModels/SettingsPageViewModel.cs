@@ -51,12 +51,7 @@ namespace Cobble.ViewModels
             WeakReferenceMessenger.Default.Send<StartAutoShowTimerMessage>();
             _applicationData.GlobalSettingsData.IsAutoShowDashboard = true;
         }
-        [RelayCommand]
-        private void ChangeTheme()
-        {
-            ThemeViewModel.ChangeTheme();
-            _applicationData.GlobalSettingsData.IsDarkTheme = !_applicationData.GlobalSettingsData.IsDarkTheme;
-        }
+
         
         public SettingsPageViewModel(ThemeViewModel themeViewModel, IWindowService windowService,ApplicationData applicationData) : base(themeViewModel, windowService)
         {

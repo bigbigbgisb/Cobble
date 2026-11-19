@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Cobble.ViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:SettingsPageViewModel}">
     <Grid x:Name="RootGrid">
@@ -27,21 +28,20 @@
                     </StackPanel>
                     <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                         <TextBlock Text="切换主题" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
-                        <Button Command="{Binding ChangeThemeCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
-                            <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="=/=" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
-                            </TextBlock>
-                        </Button>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="24" Width="24" Margin="12,0" CornerRadius="6" Background="{Binding ThemeViewModel.ThemeBrush}"></Border>
+                        <hc:ComboBox  Foreground="{Binding ThemeViewModel.ThemeBrush}" MinWidth="96" Background="{Binding ThemeViewModel.PopupBrush}" Margin="12,0" VerticalAlignment="Center" ItemsSource="{Binding ThemeViewModel.ThemeInfos}" SelectedValue="{Binding ThemeViewModel.CurrentTheme, Mode=TwoWay}" SelectedValuePath="Key" DisplayMemberPath="Value.ThemeName">
+                        </hc:ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="开启自动显示中控" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
-                        <Button Command="{Binding StartAutoShowTimerCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
+                        <Button Command="{Binding StartAutoShowTimerCommand}"  Margin="12,0" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
                             <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="📕" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
                             </TextBlock>
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="关闭自动显示中控" Foreground="{Binding ThemeViewModel.MainForeground}" Margin="0,12" FontSize="16"></TextBlock>
-                        <Button Command="{Binding StopAutoShowTimerCommand}"  Margin="12,12" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
+                        <Button Command="{Binding StopAutoShowTimerCommand}"  Margin="12,0" Background="{Binding ThemeViewModel.PopupBrush}" BorderThickness="0" >
                             <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" Text="📕" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
                             </TextBlock>
                         </Button>
@@ -53,7 +53,7 @@
                     <ItemsControl ItemsSource="{Binding TipText}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock  Margin="12,12,0,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
+                                <TextBlock  Margin="12,0" Text="{Binding}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Grid},Path=DataContext.ThemeViewModel.WarningForeground}"></TextBlock>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

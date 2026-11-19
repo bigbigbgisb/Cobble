@@ -77,6 +77,7 @@ namespace Cobble.ViewModels
             int index = -1;
             string currentLesson = "";
             string nextLesson;
+            DateTime nextLessonTime = DateTime.MinValue;
             for (int i = 0; i < LessonTimes.Count; i++)
             {
                 LessonTime? lessonTime = LessonTimes[i];
@@ -117,8 +118,9 @@ namespace Cobble.ViewModels
             else
             {
                 nextLesson = currentLessons.LessonInfos[index + 1].LessonName;
+                nextLessonTime = LessonTimes[index + 1].StartTime;
             }
-            WeakReferenceMessenger.Default.Send(new UpdateCurrentAndNextLessonMessage(currentLesson, nextLesson));
+            WeakReferenceMessenger.Default.Send(new UpdateCurrentAndNextLessonMessage(currentLesson, nextLesson, nextLessonTime));
         }
         partial void OnLessonTimesChanged(ObservableCollection<LessonTime> value)
         {

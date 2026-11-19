@@ -33,6 +33,7 @@
                         <TextBlock Foreground="{Binding ThemeViewModel.MainForeground}" FontSize="28" Margin="6">
                             <Run Text="下节课程" FontSize="16"></Run>
                             <Run Text="{Binding NextLesson}"></Run>
+                            <Run Text="{Binding NextLessonTime,StringFormat='上课时间 {0}'}" FontSize="16"></Run>
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
